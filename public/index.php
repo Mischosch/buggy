@@ -1,5 +1,9 @@
 <?php
 
+// Define base path
+defined('BASE_PATH')
+    || define('BASE_PATH', realpath(__DIR__ . '/../'));
+    
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(__DIR__ . '/../application'));
@@ -14,8 +18,17 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
-/** Zend_Application */
-require_once 'Zend/Application/Application.php';
+// Autoloader
+require_once 'Zend/Loader/AutoloaderFactory.php';
+Zend\Loader\AutoloaderFactory::factory(array(
+    /*'Zend\Loader\ClassMapAutoloader' => array(
+        __DIR__ . '/../library/.classmap.php',
+        __DIR__ . '/../application/.classmap.php',
+    ),*/
+    'Zend\Loader\StandardAutoloader' => array(
+        'fallback_autoloader' => true,
+    ),
+));
 
 // Create application, bootstrap, and run
 $application = new Zend\Application\Application (
