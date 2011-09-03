@@ -2,12 +2,13 @@
 
 namespace Buggy\Application\Resource;
 
-use Zend\Application\Resource\AbstractResource as AbstractResource, 
+use Zend\Application\Resource,
+	Zend\Application\Resource\AbstractResource as AbstractResource, 
 	Doctrine\ORM\EntityManager,
     Doctrine\ORM\Configuration, 
     Zend\Registry;
 
-class Doctrine extends AbstractResource
+class DoctrineEntityManager extends AbstractResource implements Resource
 {
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -34,6 +35,11 @@ class Doctrine extends AbstractResource
 
 	public function init()
 	{
+		return $this->getDoctrineEntityManager();
+	}
+	
+	public function getDoctrineEntityManager()
+	{
 		$options = $this->getOptions();
 		$config = new Configuration;
 		$cache = new $options['cacheImplementation'];
@@ -49,6 +55,6 @@ class Doctrine extends AbstractResource
 		$this->entityManager = EntityManager::create($options['connection'], $config);
 		Registry::set('em', $this->entityManager);
 
-		return $this->entityManager;
+		 return $this->entityManager;
 	}
 }

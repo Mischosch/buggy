@@ -1,24 +1,9 @@
 <?php
 
-use Buggy\Application\Resource\Doctrine, 
-	Zend\Application\Bootstrap as BaseBootstrap;
+use Zend\Application\Bootstrap as BaseBootstrap;
 	
 class Bootstrap extends BaseBootstrap
-{
-
-	/**
-	 * Init Doctrine EntityManager
-	 * 
-	 * @return Doctrine\ORM\EntityManager
-	 */
-	protected function _initDoctrine()
-    {
-    	$options = $this->getOption('resources');
-    	$doctrine = new Doctrine($options['doctrine']);
-    	$doctrine->init();
-    	return $doctrine;
-    }
-    
+{     
     /**
 	 * Init View Options
 	 * 
