@@ -1,8 +1,7 @@
 <?php 
 	use Zend\Registry;
 ?>
-
-<?php echo $this->broker('doctype')->getDoctype(); ?>
+<!DOCTYPE <?php echo $this->broker('doctype')->getDoctype(); ?>>
 <html>
 <head>
 <?php 
@@ -46,7 +45,7 @@
 	<footer>
     	<p class="row">
     		<span class="span14 columns">
-    			&copy; wesrc (Michael Scholl &amp; Leander Damme)
+    			&copy; <b>we</b>{src} Michael Scholl &amp; Leander Damme
     		</span>
     		<?php if (Registry::isRegistered('user')) : ?>
     		<span class="span2 columns tright">
