@@ -21,17 +21,6 @@ class Bootstrap extends BaseBootstrap
         	'http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css'
         );
     }
-    
-    /**
-	 * Init Resourceloader - add Document ResourceType
-	 * 
-	 * @return void
-	 */
-    protected function _initDocumentResourceType()
-	{
-		$this->getResourceLoader()->addResourceType('document','documents', 'Document');		
-	}
-	
 
 }
 

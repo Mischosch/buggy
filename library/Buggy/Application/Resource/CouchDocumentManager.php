@@ -23,6 +23,9 @@ class CouchDocumentManager extends AbstractResource
 
 	public function init()
 	{				
+		$application = $this->getBootstrap()->getApplication();
+		$application->getResourceLoader()->addResourceType('document','documents', 'Document');
+ 
 		return $this->getCouchDocumentManager();
 	}
 	
