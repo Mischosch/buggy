@@ -1,0 +1,12 @@
+<h1>All Article Documents from CouchDB</h1>
+
+<? foreach ($this->articles AS $article) {
+
+	echo "Title: " . $article->getTitle() . ", " . $article->getCreated()->format('d.m.Y, H:i') . "\n";
+        echo "Tags: \n";
+            foreach ($article->getTags() AS $tag) {
+             echo "  - " . $tag->getName() . "\n";
+        }
+        echo "<br>";
+    }
+?>
