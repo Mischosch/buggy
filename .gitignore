@@ -3,3 +3,4 @@
 /.settings/
 /.zfproject.xml
 .DS_Store
+/docs/cache/*
