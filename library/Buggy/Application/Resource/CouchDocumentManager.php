@@ -4,6 +4,9 @@ namespace Buggy\Application\Resource;
 
 use Zend\Application\Resource\AbstractResource as AbstractResource, 
     Doctrine\ODM\CouchDB\Configuration,
+    Doctrine\CouchDB\HTTP\SocketClient, 
+    Doctrine\CouchDB\CouchDBClient, 
+    Doctrine\ODM\CouchDB\DocumentManager, 
     Zend\Registry;
     
 class CouchDocumentManager extends AbstractResource
@@ -35,10 +38,10 @@ class CouchDocumentManager extends AbstractResource
 		$couchConfig->setMetadataDriverImpl($driverImpl);
         $couchConfig->setLuceneHandlerName('_fti');
 
-        $httpClient = new \Doctrine\CouchDB\HTTP\SocketClient();
-        $dbClient = new \Doctrine\CouchDB\CouchDBClient($httpClient, $options['connection']['dbname']);
+        $httpClient = new SocketClient();
+        $dbClient = new CouchDBClient($httpClient, $options['connection']['dbname']);
 
-        $this->documentManager = new \Doctrine\ODM\CouchDB\DocumentManager($dbClient, $couchConfig);
+        $this->documentManager = new DocumentManager($dbClient, $couchConfig);
 		Registry::set('dm', $this->documentManager);
 
 		return $this->documentManager;
