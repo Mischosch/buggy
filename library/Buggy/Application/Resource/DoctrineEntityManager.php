@@ -43,6 +43,7 @@ class DoctrineEntityManager extends AbstractResource implements Resource
 
 	public function init()
 	{
+		$this->addResourceType();
 		return $this->getDoctrineEntityManager();
 	}
 	
@@ -83,5 +84,15 @@ class DoctrineEntityManager extends AbstractResource implements Resource
 		Registry::set('em', $this->entityManager);
 
 		 return $this->entityManager;
+	}
+	
+	/**
+	 * Add Document Resource Type
+	 */
+	protected function addResourceType()
+	{
+		$application = $this->getBootstrap()->getApplication();
+    	$application->getResourceLoader()
+    		->addResourceType('document','documents', 'Document');
 	}
 }
