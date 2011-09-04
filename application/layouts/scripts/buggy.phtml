@@ -1,7 +1,8 @@
 <?php 
 	use Zend\Registry;
 ?>
-<!DOCTYPE <?php echo $this->broker('doctype')->getDoctype(); ?>>
+<?= $this->broker('doctype'); ?>
+
 <html>
 <head>
 <?php 
