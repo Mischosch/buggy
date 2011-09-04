@@ -1,16 +1,21 @@
 <?php
+
 namespace Application\Model;
 
+use Gedmo\Mapping\Annotation\Timestampable, 
+	DoctrineExtensions\Versionable\Versionable, 
+	Application\Model\ProjectVersion;
+
 /**
- * @Entity(repositoryClass="Application\Model\ProjectsRepository")
+ * @Entity(repositoryClass="Application\Model\ProjectRepository")
  * @Table(name="projects")
  */
-class Projects 
+class Project implements Versionable 
 {
 	/** 
 	 * @Id 
 	 * @Column(type="smallint")
-	 * @GeneratedValue
+	 * @GeneratedValue(strategy="AUTO")
 	 */
     private $id;
     
@@ -23,6 +28,28 @@ class Projects
      * @Column(type="text") 
      */
     private $description;
+    
+    /**
+     * @Column(type="integer")
+     * @version
+     */
+    private $version;
+    
+    /**
+     * @var datetime $created
+     *
+     * @Column(type="datetime")
+     * @Timestampable(on="create")
+     */
+    private $created;
+
+    /**
+     * @var datetime $updated
+     *
+     * @Column(type="datetime")
+     * @Timestampable(on="update")
+     */
+    private $updated;
     
 	/**
 	 * @return the $id
@@ -44,7 +71,30 @@ class Projects
 	public function getDescription() {
 		return $this->description;
 	}
+	
+	/**
+	 * @return the $version
+	 */
+	public function getVersion() {
+		return $this->version;
+	}
 
+	/**
+	 * @return $created
+	 */
+	public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+	 * @return $updated
+	 */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+	
 	/**
 	 * @param string $id
 	 */
@@ -65,4 +115,5 @@ class Projects
 	public function setDescription($description) {
 		$this->description = $description;
 	}
+
 }

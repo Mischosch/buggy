@@ -4,7 +4,7 @@ namespace Application\Model;
 
 use Doctrine\ORM\EntityRepository;
 
-class ProjectRepository extends EntityRepository
+class UsersRepository extends EntityRepository
 {
 	/**
 	 * Find Projects by title

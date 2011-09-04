@@ -2,11 +2,19 @@
 
 namespace Buggy\Application\Resource;
 
+use Zend\Debug;
+
 use Zend\Application\Resource,
 	Zend\Application\Resource\AbstractResource as AbstractResource, 
 	Doctrine\ORM\EntityManager,
     Doctrine\ORM\Configuration, 
-    Zend\Registry;
+    Doctrine\Common\ClassLoader, 
+    Zend\Registry, 
+    Doctrine\Common\EventManager, 
+    Gedmo\Timestampable\TimestampableListener,
+    Gedmo\Sluggable\SluggableListener, 
+    Gedmo\Tree\TreeListener, 
+    DoctrineExtensions\Versionable\VersionListener;
 
 class DoctrineEntityManager extends AbstractResource implements Resource
 {
@@ -39,11 +47,30 @@ class DoctrineEntityManager extends AbstractResource implements Resource
 	}
 	
 	public function getDoctrineEntityManager()
-	{
+	{	
+		$classLoader = new ClassLoader('Gedmo', BASE_PATH . '/library/DoctrineExtensions');
+		$classLoader->register();
+		
+		$classLoader = new ClassLoader('DoctrineExtensions', BASE_PATH . '/library/DoctrineExtensions');
+		$classLoader->register();
+		
+		$evm = new EventManager();
+		// timestampable
+		$evm->addEventSubscriber(new TimestampableListener());
+		// sluggable
+		$evm->addEventSubscriber(new SluggableListener());
+		// tree
+		//$evm->addEventSubscriber(new TreeListener());
+		// versionable
+		$evm->addEventSubscriber(new VersionListener());
+		
 		$options = $this->getOptions();
 		$config = new Configuration;
 		$cache = new $options['cacheImplementation'];
-		$driverImpl = $config->newDefaultAnnotationDriver($options['modelDir']);
+		$driverImpl = $config->newDefaultAnnotationDriver(array(
+			$options['modelDir'], 
+			'DoctrineExtensions\Versionable\Entity\ResourceVersion'
+		));
 		
 		$config->setMetadataDriverImpl($driverImpl);
 		$config->setMetadataCacheImpl($cache);
@@ -52,7 +79,7 @@ class DoctrineEntityManager extends AbstractResource implements Resource
 		$config->setProxyNamespace($options['proxyNamespace']);
 		$config->setAutoGenerateProxyClasses($options['autoGenerateProxyClasses']);
 
-		$this->entityManager = EntityManager::create($options['connection'], $config);
+		$this->entityManager = EntityManager::create($options['connection'], $config, $evm);
 		Registry::set('em', $this->entityManager);
 
 		 return $this->entityManager;
