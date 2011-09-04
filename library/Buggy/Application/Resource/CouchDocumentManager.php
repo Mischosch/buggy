@@ -3,52 +3,45 @@
 namespace Buggy\Application\Resource;
 
 use Zend\Application\Resource\AbstractResource as AbstractResource, 
-	Doctrine\ODM\CouchDB,
-    Doctrine\ODM\CouchDB\Configuration, 
+    Doctrine\ODM\CouchDB\Configuration,
     Zend\Registry;
-
+    
 class CouchDocumentManager extends AbstractResource
 {
 	/**
-	 * @var Doctrine\ORM\EntityManager
+	 * @var Doctrine\ODM\CouchDB/DocumentManager
 	 */
 	protected $documentManager;
 	
 	/**
 	 * @var array
 	 */
-	protected $_options = array(
-		'connection' => array(
-			'driver' => 'pdo_mysql', 
-			'host' => 'localhost', 
-			'dbname' => 'dbname', 
-			'user' => 'root', 
-			'password' => ''
-		),
-		'cacheImplementation' => '\Doctrine\Common\Cache\ArrayCache', 
-		'modelDir' => '/models',
-		'proxyDir' => '/proxies',
-		'proxyNamespace' => 'Proxies',
-		'autoGenerateProxyClasses' => true
-	);
+	protected $_options = array();
 
 	public function init()
+	{				
+		return $this->getCouchDocumentManager();
+	}
+	
+	public function getCouchDocumentManager()
 	{
 		$options = $this->getOptions();
-		$config = new Configuration;
-		$cache = new $options['cacheImplementation'];
-		$driverImpl = $config->newDefaultAnnotationDriver($options['modelDir']);
-		
-		$config->setMetadataDriverImpl($driverImpl);
-		$config->setMetadataCacheImpl($cache);
-		$config->setQueryCacheImpl($cache);
-		$config->setProxyDir($options['proxyDir']);
-		$config->setProxyNamespace($options['proxyNamespace']);
-		$config->setAutoGenerateProxyClasses($options['autoGenerateProxyClasses']);
+		$couchConfig = new Configuration();
 
-		$this->entityManager = EntityManager::create($options['connection'], $config);
-		Registry::set('em', $this->entityManager);
+		$documentDirectories = array($options['documentDir']);
+        
+		$driverImpl = $couchConfig->newDefaultAnnotationDriver($documentDirectories);
 
-		return $this->entityManager;
+		$couchConfig->setMetadataDriverImpl($driverImpl);
+        $couchConfig->setLuceneHandlerName('_fti');
+
+        $httpClient = new \Doctrine\CouchDB\HTTP\SocketClient();
+        $dbClient = new \Doctrine\CouchDB\CouchDBClient($httpClient, $options['connection']['dbname']);
+
+        $this->documentManager = new \Doctrine\ODM\CouchDB\DocumentManager($dbClient, $couchConfig);
+		Registry::set('dm', $this->documentManager);
+
+		return $this->documentManager;
+
 	}
 }
