@@ -10,13 +10,13 @@ $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
 $config->setProxyDir(__DIR__ . '/Proxies');
 $config->setProxyNamespace('Proxies');
 
-$driverImpl = $config->newDefaultAnnotationDriver( __DIR__ . '/../application/models' );
+$driverImpl = $config->newDefaultAnnotationDriver( BASE_PATH . '/application/models' );
 $config->setMetadataDriverImpl($driverImpl);
 
 $connectionOptions = array(
     'driver' => 'pdo_mysql',
     'dbname' => 'buggy',
-    'username' => 'root'
+    'user' => 'root'
 );
 
 $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
@@ -25,4 +25,4 @@ $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
     'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),
     'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
 ));
-#$cli->setHelperSet($helperSet);
+//$cli->setHelperSet($helperSet);
