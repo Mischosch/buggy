@@ -5,12 +5,18 @@ $classLoader->register();
 $classLoader = new \Doctrine\Common\ClassLoader('Proxies', __DIR__);
 $classLoader->register();
 
+$classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', BASE_PATH . '/library/DoctrineExtensions');
+$classLoader->register();
+
 $config = new \Doctrine\ORM\Configuration();
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
 $config->setProxyDir(__DIR__ . '/Proxies');
 $config->setProxyNamespace('Proxies');
 
-$driverImpl = $config->newDefaultAnnotationDriver( BASE_PATH . '/application/models' );
+$driverImpl = $config->newDefaultAnnotationDriver(array(
+	BASE_PATH . '/application/models', 
+	BASE_PATH . '/library/DoctrineExtensions/DoctrineExtensions/Versionable/Entity'
+));
 $config->setMetadataDriverImpl($driverImpl);
 
 $connectionOptions = array(
