@@ -29,6 +29,11 @@ class Project implements Versionable
      */
     private $description;
     
+    /** 
+     * @Column(type="integer") 
+     */
+    private $public;
+    
     /**
      * @Column(type="integer")
      * @version
@@ -73,6 +78,20 @@ class Project implements Versionable
 	}
 	
 	/**
+	 * @return the $public
+	 */
+	public function getPublic($kind = 'int') {
+		if ($kind == 'string') {
+			if ($this->public == 1) {
+				return 'yes';
+			} else {
+				return 'no';
+			}
+		}
+		return $this->public;
+	}
+	
+	/**
 	 * @return the $version
 	 */
 	public function getVersion() {
@@ -84,7 +103,10 @@ class Project implements Versionable
 	 */
 	public function getCreated()
     {
-        return $this->created;
+    	if (is_object($this->created) && get_class($this->created) == 'DateTime') {
+    		return $this->created->format('Y-m-d H:i:s');
+    	}
+        return false;
     }
 
     /**
@@ -114,6 +136,13 @@ class Project implements Versionable
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
+	}
+	
+	/**
+	 * @param int $public
+	 */
+	public function setPublic($public) {
+		$this->public = $public;
 	}
 
 }
