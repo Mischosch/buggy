@@ -23,16 +23,13 @@
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
-				<h3><a href="/admin/index">Buggy</a></h3>
+				<h3><a href="/admin/index">Buggy Administration</a></h3>
 				<ul>
-					<li<?php if ($this->vars('activeNavPoint') == 'xyz') echo ' class="active"'; ?>>
-						<a href="/admin/index/xyz">Xyz</a>
+					<li<?php if ($this->vars('activeNavPoint') == 'projects') echo ' class="active"'; ?>>
+						<a href="/admin/projects">Projects</a>
 					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'zyx') echo ' class="active"'; ?>>
-						<a href="/admin/zyx">Zyx</a>
-					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'yxz') echo ' class="active"'; ?>>
-						<a href="/admin/yxz">Yxz</a>
+					<li<?php if ($this->vars('activeNavPoint') == 'users') echo ' class="active"'; ?>>
+						<a href="/admin/users">Users</a>
 					</li>
 				</ul>
 			</div>
