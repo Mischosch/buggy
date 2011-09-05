@@ -18,6 +18,7 @@ class IndexController extends ActionController
 	
     public function init()
     {
+    	$this->broker('baseinit');
     	$this->em = Registry::get('em');
     }
 
