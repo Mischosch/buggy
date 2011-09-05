@@ -30,6 +30,9 @@ class BaseInit extends AbstractHelper
     	$view->broker('headScript')->appendFile('/js/admin.js');
         $view->broker('headLink')->appendStylesheet('/css/admin.css', 'screen, projection');
         $view->broker('headTitle')->prepend('Admin');
+        $controllername = ucfirst($this->getRequest()->getControllerName());
+        $view->vars()->title = $controllername;
+        $view->broker('headTitle')->prepend($controllername);
     }
     
 	protected function buggyInit() 
