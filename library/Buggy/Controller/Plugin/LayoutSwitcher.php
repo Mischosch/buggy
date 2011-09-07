@@ -8,7 +8,7 @@ use Zend\Controller\Plugin\AbstractPlugin,
 
 class LayoutSwitcher extends AbstractPlugin
 {
-	public function dispatchLoopStartup(Request\Http $request)
+	public function dispatchLoopStartup(Request\AbstractRequest $request)
     {
         if ('buggy' == $request->getModuleName()) {
             return;
