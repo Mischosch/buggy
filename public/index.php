@@ -1,6 +1,7 @@
 <?php
 
 // Define base path
+use Zend\Debug;
 defined('BASE_PATH')
     || define('BASE_PATH', realpath(__DIR__ . '/../'));
     
@@ -21,19 +22,33 @@ set_include_path(implode(PATH_SEPARATOR, array(
 // Autoloader
 require_once 'Zend/Loader/AutoloaderFactory.php';
 Zend\Loader\AutoloaderFactory::factory(array(
-    /*'Zend\Loader\ClassMapAutoloader' => array(
-        __DIR__ . '/../library/.classmap.php',
-        __DIR__ . '/../application/.classmap.php',
-    ),*/
-    'Zend\Loader\StandardAutoloader' => array(
-        'fallback_autoloader' => true,
+    'Zend\Loader\ClassMapAutoloader' => array(
+        // ClassMap autoloading for libraries and application
+        //BASE_PATH . '/library/Zend/.classmap.php',
+        BASE_PATH . '/library/Buggy/.classmap.php',
+        BASE_PATH . '/application/.classmap.php',
+        BASE_PATH . '/modules/Zf2Module/classmap.php',
+        BASE_PATH . '/modules/Zf2Mvc/classmap.php',
     ),
+    'Zend\Loader\StandardAutoloader' => array()
 ));
 
+// Init config
+$appConfig = include APPLICATION_PATH . '/configs/application.config.php';
+
+/**
+ * Long-hand:
+ * $modules = new Zf2Module\ModuleCollection;
+ * $modules->getLoader()->registerPaths($appConfig->modulePaths->toArray());
+ * $modules->loadModules($appConfig->modules->toArray());
+ */
+$modules = Zf2Module\ModuleCollection::fromConfig($appConfig);
+
+// Get the merged config object
+$config = $modules->getMergedConfig();
+
 // Create application, bootstrap, and run
-$application = new Zend\Application\Application (
-    APPLICATION_ENV,
-    APPLICATION_PATH . '/configs/application.ini'
-);
-$application->bootstrap()
-            ->run();
+$bootstrap = new $config->bootstrap_class($config);
+$application = new Zf2Mvc\Application;
+$bootstrap->bootstrap($application);
+$application->run()->send();

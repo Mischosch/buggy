@@ -41,7 +41,7 @@
 	
 	<div class="page-header"><h1><?php echo $this->vars('title'); ?></h1></div>
 	
-	<?php echo $this->broker('layout')->getLayout()->content; ?>
+	<?php echo $this->vars()->getRawValue('content'); ?>
 
 	<footer>
     	<p class="row">
