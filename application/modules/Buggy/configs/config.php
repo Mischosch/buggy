@@ -1,44 +1,94 @@
 <?php
+
 $config = array(
     'bootstrap_class' => 'Buggy\Bootstrap',
     'di' => array( 'instance' => array(
         'alias' => array(
-            'index' => 'Buggy\Controller\IndexController',
-            'error' => 'Buggy\Controller\ErrorController',
-            'view'  => 'Zend\View\PhpRenderer',
+            'index'    => 'Buggy\Controller\IndexController',
+            'error'    => 'Buggy\Controller\ErrorController',
+            'view'     => 'Zend\View\PhpRenderer',
+            'layout'   => 'Zend\Layout\Layout',
+			'em'       => 'Buggy\Resource\DoctrineEntityManager',
+			'dm'       => 'Buggy\Resource\CouchDocumentManager',
+			'BaseInit' => 'Buggy\Action\Helper\BaseInit'
         ),
 
-        'preferences' => array(
-            'Zend\View\Renderer' => 'Zend\View\PhpRenderer',
-        ),
-
-        /*
-        'Zend\View\HelperLoader' => array('methods' => array(
-            'registerPlugins' => array(
-                'map' => array(
-                    'url' => 'site\View\Helper\Url',
-                ),
+        'Zend\View\HelperLoader' => array('parameters' => array(
+            'map' => array(
+                'url' => 'Buggy\View\Helper\Url',
             ),
         )),
-        'Zend\View\HelperBroker' => array('methods' => array(
-            'setClassLoader' => array(
-                'loader' => 'Zend\View\HelperLoader',
-            ),
+        
+        'Zend\View\HelperBroker' => array('parameters' => array(
+            'loader' => 'Zend\View\HelperLoader',
         )),
-         */
-        'Zend\View\PhpRenderer' => array('methods' => array(
-            'setResolver' => array(
-                'resolver' => 'Zend\View\TemplatePathStack',
-                'options' => array(
-                    'script_paths' => array(
-                        'buggy' => __DIR__ . '/../views'
-                    ),
-                ),
+        
+        'Zend\View\PhpRenderer' => array(
+        	'methods' => array(
+            	'setResolver' => array(
+                	'resolver' => 'Zend\View\TemplatePathStack',
+                	'options' => array(
+                    	'script_paths' => array(
+                        	'buggy' => __DIR__ . '/../views'
+                    	),
+                	),
+            	),
             ),
-            'setBroker' => array(
+            'parameters' => array(
                 'broker' => 'Zend\View\HelperBroker',
             )
-        )),
+        ),
+        
+        'Zend\Layout\Layout' => array(
+       		'parameters' => array(
+        		'options' => array(
+                	'layoutPath' => APPLICATION_PATH . '/modules/Buggy/views/layouts/',
+        			'layout' => 'buggy',
+        		),
+            ),
+        ),
+        
+        'Buggy\Action\Helper\BaseInit' => array(
+        	'parameters' => array(
+        		'view' => 'view'
+        	)
+        ), 
+        
+        'Buggy\Resource\DoctrineEntityManager' => array(
+        	'parameters' => array(
+        		'options' => array(
+        			'autoGenerateProxyClasses' => 1, 
+        			'cacheImplementation' 	   => '\Doctrine\Common\Cache\ArrayCache',
+        			'modelDir' 			  	   => APPLICATION_PATH . '/models',
+        			'proxyDir' 			  	   => APPLICATION_PATH . '/proxies',
+        			'connection'   => array(
+        				'driver'   => 'pdo_mysql', 
+        				'host'     => 'localhost',
+        				'dbname'   => 'buggy',
+        				'user'     => 'root',
+        				'password' => '',
+        			)
+        		)
+        	)
+        ),
+        
+        'Buggy\Resource\CouchDocumentManager' => array(
+        	'parameters' => array(
+        		'options' => array(
+        			'documentDir' => APPLICATION_PATH . '/documents',
+        			'connection'   => array(
+        				'host'     => 'localhost',
+        				'dbname'   => 'buggy',
+        			)
+        		)
+        	)
+        ),
+        
+        'Buggy\Controller\IndexController' => array(
+        	'parameters' => array(
+        		'dem' => 'Buggy\Resource\DoctrineEntityManager'
+        	)
+        ), 
     )),
 
     'routes' => array(

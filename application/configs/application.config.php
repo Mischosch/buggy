@@ -8,6 +8,6 @@ return new Zend\Config\Config(array(
         'Zf2Module', // @todo: really need it?
         'Zf2Mvc',
         'Buggy',
-        //'Admin',
+        'Admin',
     ),
 ));

@@ -2,6 +2,8 @@
 
 namespace Buggy;
 
+use Zend\Debug;
+
 use Zend\Config\Config,
     Zend\Di\Configuration,
     Zend\Di\Definition,
@@ -68,27 +70,49 @@ class Bootstrap
          * Wire events into the Application's EventManager, and/or setup
          * static listeners for events that may be invoked.
          */
-        $di     = $app->getLocator();
-        $view   = $di->get('view');
-        // Needed until I can figure out why DI isn't working
-        //$view->broker()->getClassLoader()->registerPlugin('url', 'Application\View\Helper\Url');
-        //$url = $view->broker('url');
-        //$url->setRouter($app->getRouter());
-
-        $layoutHandler = function($content, $response) use ($view) {
-            // Layout
-            $vars       = new ViewVariables(array('content' => $content));
-            $layout     = $view->render('layouts/buggy.phtml', $vars);
-
-            $response->setContent($layout);
+        $di      = $app->getLocator();
+        $view    = $di->get('view');
+        
+        $layout  = $di->get('layout');
+        $layout->setView($view);
+        
+        $url     = $view->plugin('url');
+        $url->setRouter($app->getRouter());
+        
+        $request = $app->getRequest();
+		
+        // Layout
+        $layoutHandler = function($content, $response) use ($layout, $view, $request) {
+            //$vars       = new ViewVariables(array('content' => $content));
+            //$layout     = $view->render('layouts/buggy.phtml', $vars);
+            $view->vars()->content = $content;
+            $uri = $request->getUri();
+            if (strpos($uri, '/admin') !== false) {
+            	$layout->setLayout('admin');
+            }
+            $layoutContent = $layout->render();
+            $response->setContent($layoutContent);
         };
 
         $events = StaticEventManager::getInstance();
 
+        // Base Init
+        $baseInit = $di->get('BaseInit');
+        $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.pre', function($e) use ($baseInit) {
+        	$request    = $e->getParam('request');
+        	$uri = $request->getUri();
+        	if (strpos($uri, '/admin') !== false) {
+        		$routeMatch = $request->getMetadata('route-match');
+            	$controller = $routeMatch->getParam('controller', 'error');
+            	$baseInit->init()->adminInit($controller);
+            } else {
+            	$baseInit->init()->buggyInit();
+            }
+        });
+        
         // View Rendering
         $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.post', function($e) use ($view, $layoutHandler) {
             $vars       = $e->getParam('__RESULT__');
-            var_dump("hallo");
             if ($vars instanceof Response) {
                 return;
             }
@@ -117,9 +141,9 @@ class Bootstrap
             } else {
                 $vars = new ViewVariables($vars);
             }
-
+            
             // Action content
-            $content    = $view->render($script, $vars);
+            $content = $view->render($script, $vars);
 
             // Layout
             $layoutHandler($content, $response);
@@ -128,12 +152,12 @@ class Bootstrap
 
         // Render 404 pages
         $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.post', function($e) use ($view, $layoutHandler) {
-            $vars       = $e->getParam('__RESULT__');
+            $vars = $e->getParam('__RESULT__');
             if ($vars instanceof Response) {
                 return;
             }
 
-            $response   = $e->getParam('response');
+            $response = $e->getParam('response');
             if ($response->getStatusCode() != 404) {
                 // Only handle 404's
                 return;

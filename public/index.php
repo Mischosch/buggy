@@ -42,7 +42,7 @@ $appConfig = include APPLICATION_PATH . '/configs/application.config.php';
  * $modules->getLoader()->registerPaths($appConfig->modulePaths->toArray());
  * $modules->loadModules($appConfig->modules->toArray());
  */
-$modules = Zf2Module\ModuleCollection::fromConfig($appConfig);
+$modules = Zf2Module\ModuleManager::fromConfig($appConfig);
 
 // Get the merged config object
 $config = $modules->getMergedConfig();

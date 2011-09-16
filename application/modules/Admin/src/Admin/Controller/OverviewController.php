@@ -1,14 +1,15 @@
 <?php
 
 /** @namespace */
-namespace Admin;
+namespace Admin\Controller;
 
 use Application\Model\Project,
 	Zend\Registry,
 	Zend\Debug, 
-	Zend\Controller\Action as ActionController;
+	Buggy\Resource\DoctrineEntityManager, 
+	Zf2Mvc\Controller\ActionController;
 
-class IndexController extends ActionController
+class OverviewController extends ActionController
 {
 
 	/**
@@ -16,16 +17,14 @@ class IndexController extends ActionController
 	 */
 	protected $em;
 	
-    public function init()
+    /*public function init()
     {
     	$this->broker('baseinit');
-    	$this->em = Registry::get('em');
-    }
+    }*/
 
     public function indexAction()
     {
-    	$project = $this->em->find('Application\Model\Project', 1);
-    	Debug::dump($project);
+    	return array('content' => 'Admin Overview');
     }
     
 	public function allAction()
@@ -64,6 +63,12 @@ class IndexController extends ActionController
     	}
     	Debug::dump($projectRecord);
     	exit;
+    }
+    
+	public function setDoctrineEntityManager(DoctrineEntityManager $em)
+    {
+        $this->em = $em->getEntityManager();
+        return $this;
     }
 
 

@@ -1,12 +1,11 @@
 <?php
 
-/** @namespace */
-namespace Admin;
+namespace Admin\Controller;
 
 use Application\Model\Project,
-	Zend\Registry,
 	Zend\Debug, 
-	Zend\Controller\Action as ActionController;
+	Buggy\Resource\DoctrineEntityManager as DoctrineEntityManager, 
+	Zf2Mvc\Controller\ActionController;
 
 class ProjectsController extends ActionController
 {
@@ -16,17 +15,16 @@ class ProjectsController extends ActionController
 	 */
 	protected $em;
 	
-    public function init()
+	/*public function init()
     {
     	$this->broker('baseinit');
-    	$this->em = Registry::get('em');
-    }
+    }*/
 
     public function indexAction()
     {
     	$projects = $this->em->getRepository('Application\Model\Project')
     		->getProjectList();
-   	    $this->view->vars()->projects = $projects;
+   	    return array('projects' => $projects, 'title' => 'Projects');
     }
     
 	public function allAction()
@@ -58,7 +56,7 @@ class ProjectsController extends ActionController
     
 	public function updateAction()
     {
-    	$projectRecord = $project = $this->em->find('Application\Model\Project', 1);
+    	$projectRecord = $project = $this->dem->find('Application\Model\Project', 1);
     	if ($projectRecord) {
 	    	$projectRecord->setTitle('Hallo Welt 123');
 	    	$this->em->persist($projectRecord);
@@ -66,6 +64,12 @@ class ProjectsController extends ActionController
     	}
     	Debug::dump($projectRecord);
     	exit;
+    }
+    
+	public function setDoctrineEntityManager(DoctrineEntityManager $em)
+    {
+        $this->em = $em->getEntityManager();
+        return $this;
     }
 
 

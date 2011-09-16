@@ -1,14 +1,14 @@
-<div class="page-header"><h1><?= $this->vars('title'); ?></h1></div>
-
-<div class="row">
+<div class="page-header row">
+	<h1 class="span14 columns"><?php echo $this->vars('title'); ?></h1>
 	<div class="span2 columns">
     	<a class="btn small primary" href="<?= 
-    		$this->broker('url')->direct(array('action' => 'add')); 
+    		$this->plugin('url')->direct(array('action' => 'add', 'controller' => 'projects'), array('name' => 'admin')); 
     	?>">
     		Add Project
     	</a>
     </div>
 </div>
+
 <div class="row">
 	<div class="span16 columns"></div>
     
@@ -35,14 +35,15 @@
         		<td class="tcenter"><?= $project->getVersion(); ?></td>
         		<td><?= $project->getCreated(); ?></td>
         		<td>
-        			<a href="<?= $this->broker('url')->direct(array(
-		    			'action' => 'edit',
+        			<a href="<?= $this->plugin('url')->direct(array(
+		    			'controller' => 'projects',
+        				'action' => 'edit',
 		        		'id' => $project->getId()
-		    		)); ?>">Edit</a>
-        			<a href="<?= $this->broker('url')->direct(array(
+		    		), array('name' => 'admin')) . '/id/'.$project->getId(); ?>">Edit</a>
+        			<a href="<?= $this->plugin('url')->direct(array(
 		    			'action' => 'delete',
 		        		'id' => $project->getId()
-		    		)); ?>">Delete</a>
+		    		), array('name' => 'admin')) . '/id/'.$project->getId(); ?>">Delete</a>
     		    </td>
         	</tr>
         <?php endforeach; ?>

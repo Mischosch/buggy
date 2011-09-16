@@ -1,15 +1,15 @@
 <?php 
 	use Zend\Registry;
 ?>
-<?= $this->broker('doctype'); ?>
+<?= $this->plugin('doctype'); ?>
 
 <html>
 <head>
 <?php 
-    echo $this->broker('headTitle')->toString(); 
-    echo $this->broker('headMeta')->toString(); 
-    echo $this->broker('headLink')->toString(); 
-    echo $this->broker('headScript')->toString(); 
+    echo $this->plugin('headTitle')->toString(); 
+    echo $this->plugin('headMeta')->toString(); 
+    echo $this->plugin('headLink')->toString(); 
+    echo $this->plugin('headScript')->toString(); 
 ?> 
 <link href="/favicon.ico" type="image/x-icon" rel="icon" />
 <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />

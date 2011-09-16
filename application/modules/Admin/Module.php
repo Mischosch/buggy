@@ -1,6 +1,6 @@
 <?php
 
-namespace Buggy;
+namespace Admin;
 
 use Zend\Config\Config,
     Zend\Loader\AutoloaderFactory;
@@ -15,9 +15,6 @@ class Module
     public function init($eventCollection)
     {
         $this->initAutoloader();
-        $eventCollection->attach('init.post', function($e) {
-            // This is ran after all modules' init() have ran
-        });
     }
 
     protected function initAutoloader()
@@ -26,10 +23,10 @@ class Module
             'Zend\Loader\ClassMapAutoloader' => array(
                 __DIR__ . '/classmap.php',
             ),
-		    'Zend\Loader\StandardAutoloader' => array(
+		    /*'Zend\Loader\StandardAutoloader' => array(
             	'namespaces' => array('Doctrine' => BASE_PATH.'/library/Doctrine'),
             	'fallback_autoloader' => false
-            )
+            )*/
         ));
     }
 }
