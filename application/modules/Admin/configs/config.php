@@ -3,6 +3,7 @@
 $config = array(
     'di' => array( 'instance' => array(
         'alias' => array(
+            'admin_index' => 'Admin\Controller\IndexController',
             'overview' => 'Admin\Controller\OverviewController',
             'projects' => 'Admin\Controller\ProjectsController',
             'view'  => 'Zend\View\PhpRenderer',
@@ -36,15 +37,14 @@ $config = array(
 
     'routes' => array(
         'admin' => array(
-            'type'    => 'Zf2Mvc\Router\Http\Regex',
+            'type'    => 'Zf2Mvc\Router\Http\Module',
             'options' => array(
-                'regex' => '/admin/(?P<controller>[^/]+)(/(?P<action>[^/]+)?)?',
+                'route' => '/:module/:controller/:action/*',
                 'defaults' => array(
+    				'module'     => 'admin',
                     'controller' => 'overview',
                     'action'     => 'index',
-    				'id' => ''
                 ),
-                'spec' => '/admin/%s/%s',
             ),
         ),
     ),
