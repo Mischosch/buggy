@@ -54,9 +54,9 @@ class ProjectsController extends ActionController
     	exit;
     }
     
-	public function updateAction()
+	public function editAction()
     {
-    	$projectRecord = $project = $this->dem->find('Application\Model\Project', 1);
+    	$projectRecord = $project = $this->em->find('Application\Model\Project', 1);
     	if ($projectRecord) {
 	    	$projectRecord->setTitle('Hallo Welt 123');
 	    	$this->em->persist($projectRecord);

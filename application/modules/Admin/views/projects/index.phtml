@@ -39,11 +39,11 @@
 		    			'controller' => 'projects',
         				'action' => 'edit',
 		        		'id' => $project->getId()
-		    		), array('name' => 'admin')) . '/id/'.$project->getId(); ?>">Edit</a>
+		    		), array('name' => 'admin')); ?>">Edit</a>
         			<a href="<?= $this->plugin('url')->direct(array(
 		    			'action' => 'delete',
 		        		'id' => $project->getId()
-		    		), array('name' => 'admin')) . '/id/'.$project->getId(); ?>">Delete</a>
+		    		), array('name' => 'admin')); ?>">Delete</a>
     		    </td>
         	</tr>
         <?php endforeach; ?>
