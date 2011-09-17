@@ -125,6 +125,7 @@ class Bootstrap
 
             $request    = $e->getParam('request');
             $routeMatch = $request->getMetadata('route-match');
+            $module     = $routeMatch->getParam('module', null);
             $controller = $routeMatch->getParam('controller', 'error');
             $action     = $routeMatch->getParam('action', 'error');
             $script     = $controller . '/' . $action . '.phtml';
@@ -143,6 +144,18 @@ class Bootstrap
             }
             
             // Action content
+            if (!empty($module)) {
+            	$paths = $view->resolver()->getPaths();
+            	$pathToSet = false;
+            	foreach ($paths AS $path) {
+            		if (strpos($path, ucfirst($module))) {
+            			$pathToSet = $path;
+            		}
+            	}
+            	if (isset($pathToSet)) {
+            		$view->resolver()->setPaths(array($pathToSet));
+            	}
+            }
             $content = $view->render($script, $vars);
 
             // Layout
