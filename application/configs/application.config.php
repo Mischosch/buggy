@@ -1,6 +1,6 @@
 <?php
 return new Zend\Config\Config(array(
-    'modulePaths' => array(
+    'module_paths' => array(
         APPLICATION_PATH . '/modules', 
         realpath(__DIR__ . '/../../modules'),
     ),
@@ -9,5 +9,9 @@ return new Zend\Config\Config(array(
         'Zf2Mvc',
         'Buggy',
         'Admin',
+    ),
+    'module_config' => array( 
+        'cache_config'  => false,
+        'cache_dir'     => realpath(__DIR__ . '/../../data/cache'),
     ),
 ));

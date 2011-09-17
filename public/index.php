@@ -42,10 +42,14 @@ $appConfig = include APPLICATION_PATH . '/configs/application.config.php';
  * $modules->getLoader()->registerPaths($appConfig->modulePaths->toArray());
  * $modules->loadModules($appConfig->modules->toArray());
  */
-$modules = Zf2Module\ModuleManager::fromConfig($appConfig);
+$moduleManager = new Zf2Module\ModuleManager(
+    new Zf2Module\ModuleLoader($appConfig->module_paths),
+    $appConfig->modules,
+    new Zf2Module\ModuleManagerOptions($appConfig->module_config)
+);
 
 // Get the merged config object
-$config = $modules->getMergedConfig();
+$config = $moduleManager->getMergedConfig();
 
 // Create application, bootstrap, and run
 $bootstrap = new $config->bootstrap_class($config);
