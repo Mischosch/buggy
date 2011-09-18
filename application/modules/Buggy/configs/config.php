@@ -60,8 +60,8 @@ $config = array(
         		'options' => array(
         			'autoGenerateProxyClasses' => 1, 
         			'cacheImplementation' 	   => '\Doctrine\Common\Cache\ArrayCache',
-        			'modelDir' 			  	   => APPLICATION_PATH . '/models',
-        			'proxyDir' 			  	   => APPLICATION_PATH . '/proxies',
+        			'modelDir' 			  	   => __DIR__ . '/../src/Buggy/Model',
+        			'proxyDir' 			  	   => __DIR__ . '/../src/Buggy/Proxies',
         			'connection'   => array(
         				'driver'   => 'pdo_mysql', 
         				'host'     => 'localhost',
@@ -76,7 +76,7 @@ $config = array(
         'Buggy\Resource\CouchDocumentManager' => array(
         	'parameters' => array(
         		'options' => array(
-        			'documentDir' => APPLICATION_PATH . '/documents',
+        			'documentDir' => __DIR__ . '/../src/Buggy/Document',
         			'connection'   => array(
         				'host'     => 'localhost',
         				'dbname'   => 'buggy',
@@ -87,7 +87,7 @@ $config = array(
         
         'Buggy\Controller\IndexController' => array(
         	'parameters' => array(
-        		'dem' => 'Buggy\Resource\DoctrineEntityManager'
+        		'em' => 'Buggy\Resource\DoctrineEntityManager'
         	)
         ), 
     )),
