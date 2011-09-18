@@ -16,6 +16,7 @@ $config = array(
         'Zend\View\HelperLoader' => array('parameters' => array(
             'map' => array(
                 'url' => 'Buggy\View\Helper\Url',
+                'messagesFormatter' => 'Buggy\View\Helper\MessagesFormatter',
             ),
         )),
         
