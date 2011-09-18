@@ -4,8 +4,8 @@ $config = array(
     'di' => array( 'instance' => array(
         'alias' => array(
             'admin_index' => 'Admin\Controller\IndexController',
-            'overview' => 'Admin\Controller\OverviewController',
-            'projects' => 'Admin\Controller\ProjectsController',
+            'admin_overview' => 'Admin\Controller\OverviewController',
+            'admin_projects' => 'Admin\Controller\ProjectsController',
             'view'  => 'Zend\View\PhpRenderer',
         ),
         
@@ -17,9 +17,23 @@ $config = array(
         
         'Admin\Controller\ProjectsController' => array(
         	'parameters' => array(
-        		'em' => 'Buggy\Resource\DoctrineEntityManager'
+        		'em' => 'Buggy\Resource\DoctrineEntityManager', 
+        		'projectService' => 'Admin\Service\Projects', 
+        		'router' => 'Zf2Mvc\Router\SimpleRouteStack'
         	)
         ), 
+        
+        'Admin\Service\Projects' => array(
+        	'parameters' => array(
+        		'projectForm' => 'Admin\Form\Project'
+        	)
+        ),
+
+        'Admin\Form\Project' => array(
+        	'parameters' => array(
+        		'view' => 'Zend\View\PhpRenderer'
+        	)
+        ),
 
         'Zend\View\PhpRenderer' => array(
         	'methods' => array(
