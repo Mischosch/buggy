@@ -27,7 +27,10 @@ class Module
                 __DIR__ . '/classmap.php',
             ),
 		    'Zend\Loader\StandardAutoloader' => array(
-            	'namespaces' => array('Doctrine' => BASE_PATH.'/library/Doctrine'),
+            	'namespaces' => array(
+            		'Doctrine' => BASE_PATH.'/library/Doctrine',
+            		'Buggy'    => __DIR__ . '/src/Buggy'
+            	),
             	'fallback_autoloader' => false
             )
         ));

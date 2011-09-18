@@ -23,10 +23,10 @@ class Module
             'Zend\Loader\ClassMapAutoloader' => array(
                 __DIR__ . '/classmap.php',
             ),
-		    /*'Zend\Loader\StandardAutoloader' => array(
-            	'namespaces' => array('Doctrine' => BASE_PATH.'/library/Doctrine'),
+		    'Zend\Loader\StandardAutoloader' => array(
+            	'namespaces' => array('Admin' => __DIR__  . '/src/Admin'),
             	'fallback_autoloader' => false
-            )*/
+            )
         ));
     }
 }
