@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Document;
+namespace Buggy\Document;
 
 /**
  * @EmbeddedDocument

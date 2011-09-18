@@ -1,25 +1,11 @@
 <?php
 
-namespace Application\Model;
+namespace Buggy\Model;
 
 use Doctrine\ORM\EntityRepository;
 
-class ProjectRepository extends EntityRepository
+class UsersRepository extends EntityRepository
 {
-	/**
-	 * Get Project List
-	 * 
-	 * @return array
-	 */
-	public function getProjectList() {
-	    $qb = $this->_em->createQueryBuilder();
-	    $qb->select('p')
-	        ->from('Application\Model\Project', 'p')
-	        ->orderBy('p.title');
-	        
-    	return $qb->getQuery()->getResult();
-	}
-	
 	/**
 	 * Find Projects by title
 	 * 
@@ -29,7 +15,7 @@ class ProjectRepository extends EntityRepository
 	public function findActiveProjectsByTitle($title) {
 	    $qb = $this->_em->createQueryBuilder();
 	    $qb->select('p')
-	        ->from('Application\Model\Project', 'p')
+	        ->from('Buggy\Model\Projects', 'p')
 	        ->where('p.title = :title')
 	        ->setParameter('title', $title)
 	        ->orderBy('p.title');

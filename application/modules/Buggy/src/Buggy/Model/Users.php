@@ -1,8 +1,8 @@
 <?php
-namespace Application\Model;
+namespace Buggy\Model;
 
 /**
- * @Entity(repositoryClass="Application\Model\UsersRepository")
+ * @Entity(repositoryClass="Buggy\Model\UsersRepository")
  * @Table(name="users")
  */
 class Users 

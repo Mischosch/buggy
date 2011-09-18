@@ -1,13 +1,13 @@
 <?php
 
-namespace Application\Model;
+namespace Buggy\Model;
 
 use Gedmo\Mapping\Annotation\Timestampable, 
 	DoctrineExtensions\Versionable\Versionable, 
-	Application\Model\ProjectVersion;
+	Buggy\Model\ProjectVersion;
 
 /**
- * @Entity(repositoryClass="Application\Model\ProjectRepository")
+ * @Entity(repositoryClass="Buggy\Model\ProjectRepository")
  * @Table(name="projects")
  */
 class Project implements Versionable 

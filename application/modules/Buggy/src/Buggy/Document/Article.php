@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Document;
+namespace Buggy\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -19,7 +19,7 @@ class Article
     protected $body;
     /** @Field(type="datetime") */
     protected $created;
-    /** @EmbedMany(targetDocument="Application\Document\Tag") */
+    /** @EmbedMany(targetDocument="Buggy\Document\Tag") */
     protected $tags;
 
     public function __construct()
