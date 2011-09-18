@@ -8,7 +8,7 @@ use Buggy\Form\AbstractForm,
 	Zend\Form\Element\Select,
 	Zend\Form\Element\Button, 
 	Buggy\Form\Decorator, 
-	Application\Model\Project as ProjectModel;
+	Buggy\Model\Project as ProjectModel;
 
 class Project extends AbstractForm
 {

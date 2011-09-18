@@ -2,11 +2,10 @@
 
 namespace Admin\Controller;
 
-use Application\Model\Project,
+use Buggy\Model\Project,
 	Admin\Service\Projects, 
 	Zend\Filter\Digits, 
 	Zend\Controller\Action\Helper\FlashMessenger,
-	Zend\Debug, 
 	Buggy\Resource\DoctrineEntityManager as DoctrineEntityManager, 
 	Zf2Mvc\Controller\ActionController, 
 	Zf2Mvc\Router\RouteStack;
@@ -32,7 +31,7 @@ class ProjectsController extends ActionController
 
     public function indexAction()
     {
-    	$projects = $this->em->getRepository('Application\Model\Project')
+    	$projects = $this->em->getRepository('Buggy\Model\Project')
     		->getProjectList(); //->findAll();
    	    return array(
    	    	'projects' => $projects, 
@@ -78,7 +77,7 @@ class ProjectsController extends ActionController
     	$filter = new Digits();
     	$projectId = $filter->filter($this->getQueryParam('id'));
     	if (is_numeric($projectId)) {
-	    	$projectRecord = $this->em->find('Application\Model\Project', $projectId);
+	    	$projectRecord = $this->em->find('Buggy\Model\Project', $projectId);
 	    	if ($projectRecord) {
 	    		$form = $this->projectService->getProjectForm();
 	    		$form->setAction('/admin/projects/edit/id/'.$projectId);
@@ -115,7 +114,7 @@ class ProjectsController extends ActionController
     
 	public function testAction()
     {
-    	Debug::dump($this->em->getRepository('Application\Model\Project')
+    	Debug::dump($this->em->getRepository('Buggy\Model\Project')
     		->findActiveProjectsByTitle('Hallo Welt'));
     	exit;
     }

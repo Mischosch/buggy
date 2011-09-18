@@ -3,8 +3,7 @@
 /** @namespace */
 namespace Admin\Controller;
 
-use Application\Model\Project,
-	Zend\Registry,
+use Buggy\Model\Project,
 	Zend\Debug, 
 	Buggy\Resource\DoctrineEntityManager, 
 	Zf2Mvc\Controller\ActionController;
@@ -29,7 +28,7 @@ class OverviewController extends ActionController
     
 	public function allAction()
     {
-    	$projects = $this->em->getRepository('Application\Model\Project')
+    	$projects = $this->em->getRepository('Buggy\Model\Project')
     		->findAll();
     	Debug::dump($projects);
     	exit;
@@ -37,7 +36,7 @@ class OverviewController extends ActionController
     
 	public function testAction()
     {
-    	Debug::dump($this->em->getRepository('Application\Model\Project')
+    	Debug::dump($this->em->getRepository('Buggy\Model\Project')
     		->findActiveProjectsByTitle('Hallo Welt'));
     	exit;
     }
