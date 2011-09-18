@@ -1,0 +1,10 @@
+<div class="page-header row">
+	<h1 class="span16 columns"><?php echo $this->vars('title'); ?></h1>
+</div>
+
+<div class="row">
+	<div class="span16 columns">
+		<?php echo $this->plugin('messagesFormatter')->direct($this->vars('messages')); ?>
+		<?php echo $this->vars('form'); ?>
+	</div>
+</div>

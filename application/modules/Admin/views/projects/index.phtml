@@ -2,7 +2,7 @@
 	<h1 class="span14 columns"><?php echo $this->vars('title'); ?></h1>
 	<div class="span2 columns">
     	<a class="btn small primary" href="<?= 
-    		$this->plugin('url')->direct(array('action' => 'add', 'controller' => 'projects'), array('name' => 'admin')); 
+    		$this->plugin('url')->direct(array('action' => 'add'), array('name' => 'admin')); 
     	?>">
     		Add Project
     	</a>
@@ -10,7 +10,9 @@
 </div>
 
 <div class="row">
-	<div class="span16 columns"></div>
+	<div class="span16 columns">
+		<?php echo $this->plugin('messagesFormatter')->direct($this->vars('messages')); ?>
+	</div>
     
     <div class="span16 columns">
         <table summary="" class="zebra-striped">
