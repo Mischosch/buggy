@@ -1,7 +1,6 @@
 <?php
 
 // Define base path
-use Zend\Debug;
 defined('BASE_PATH')
     || define('BASE_PATH', realpath(__DIR__ . '/../'));
     
@@ -23,12 +22,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Zend/Loader/AutoloaderFactory.php';
 Zend\Loader\AutoloaderFactory::factory(array(
     'Zend\Loader\ClassMapAutoloader' => array(
-        // ClassMap autoloading for libraries and application
-        //BASE_PATH . '/library/Zend/.classmap.php',
         BASE_PATH . '/library/Buggy/.classmap.php',
-        BASE_PATH . '/application/.classmap.php',
-        BASE_PATH . '/modules/Zf2Module/classmap.php',
-        BASE_PATH . '/modules/Zf2Mvc/classmap.php',
+        BASE_PATH . '/modules/Zf2Module/autoload_classmap.php',
+        //BASE_PATH . '/modules/Zf2Mvc/classmap.php',
     ),
     'Zend\Loader\StandardAutoloader' => array()
 ));
@@ -36,16 +32,14 @@ Zend\Loader\AutoloaderFactory::factory(array(
 // Init config
 $appConfig = include APPLICATION_PATH . '/configs/application.config.php';
 
-/**
- * Long-hand:
- * $modules = new Zf2Module\ModuleCollection;
- * $modules->getLoader()->registerPaths($appConfig->modulePaths->toArray());
- * $modules->loadModules($appConfig->modules->toArray());
- */
-$moduleManager = new Zf2Module\ModuleManager(
-    new Zf2Module\ModuleLoader($appConfig->module_paths),
+// Module Loader
+$moduleLoader = new Zend\Loader\ModuleAutoloader($appConfig->module_paths);
+$moduleLoader->register();
+
+// Module Manager
+$moduleManager = new Zend\Module\Manager(
     $appConfig->modules,
-    new Zf2Module\ModuleManagerOptions($appConfig->module_config)
+    new Zend\Module\ManagerOptions($appConfig->module_config)
 );
 
 // Get the merged config object
@@ -53,6 +47,6 @@ $config = $moduleManager->getMergedConfig();
 
 // Create application, bootstrap, and run
 $bootstrap = new $config->bootstrap_class($config);
-$application = new Zf2Mvc\Application;
+$application = new Zend\Mvc\Application;
 $bootstrap->bootstrap($application);
 $application->run()->send();

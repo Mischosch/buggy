@@ -12,7 +12,7 @@ use Zend\Config\Config,
     Zend\EventManager\StaticEventManager,
     Zend\Stdlib\ResponseDescription as Response,
     Zend\View\Variables as ViewVariables,
-    Zf2Mvc\Application;
+    Zend\Mvc\Application;
 
 class Bootstrap
 {
@@ -54,7 +54,7 @@ class Bootstrap
          * Pull the routing table from configuration, and pass it to the
          * router composed in the Application instance.
          */
-        $router = $app->getLocator()->get('Zf2Mvc\Router\SimpleRouteStack');
+        $router = $app->getLocator()->get('Zend\Mvc\Router\SimpleRouteStack');
         foreach ($this->config->routes as $name => $config) {
             $class   = $config->type;
             $options = $config->options;
@@ -95,36 +95,36 @@ class Bootstrap
         };
 
         $events = StaticEventManager::getInstance();
-
+        
         // Base Init
         $baseInit = $di->get('BaseInit');
-        $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.pre', function($e) use ($baseInit) {
-        	$request    = $e->getParam('request');
+        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) use ($baseInit) {
+        	$request = $e->getRequest();
         	$uri = $request->getUri();
         	if (strpos($uri, '/admin') !== false) {
-        		$routeMatch = $request->getMetadata('route-match');
+        		$routeMatch = $e->getRouteMatch();
             	$controller = $routeMatch->getParam('controller', 'error');
             	$baseInit->init()->adminInit($controller);
             } else {
             	$baseInit->init()->buggyInit();
             }
-        });
+        }, 0);
         
         // View Rendering
-        $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.post', function($e) use ($view, $layoutHandler) {
-            $vars       = $e->getParam('__RESULT__');
+        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) use ($view, $layoutHandler) {
+            $vars = $e->getResult();
             if ($vars instanceof Response) {
                 return;
             }
 
-            $response   = $e->getParam('response');
+            $response   = $e->getResponse();
             if ($response->getStatusCode() == 404) {
                 // Render 404 responses differently
                 return;
             }
 
-            $request    = $e->getParam('request');
-            $routeMatch = $request->getMetadata('route-match');
+            $request    = $e->getRequest();
+            $routeMatch = $e->getRouteMatch();
             $module     = $routeMatch->getParam('module', null);
             $controller = $routeMatch->getParam('controller', 'error');
             $action     = $routeMatch->getParam('action', 'error');
@@ -161,16 +161,16 @@ class Bootstrap
             // Layout
             $layoutHandler($content, $response);
             return $response;
-        });
+        }, -10);
 
         // Render 404 pages
-        $events->attach('Zf2Mvc\Controller\ActionController', 'dispatch.post', function($e) use ($view, $layoutHandler) {
-            $vars = $e->getParam('__RESULT__');
+        /*$events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', function($e) use ($view, $layoutHandler) {
+            $vars = $e->getResult();
             if ($vars instanceof Response) {
                 return;
             }
 
-            $response = $e->getParam('response');
+            $response = $e->getResponse();
             if ($response->getStatusCode() != 404) {
                 // Only handle 404's
                 return;
@@ -178,18 +178,17 @@ class Bootstrap
 
             $vars = array('message' => 'Page not found.');
 
-            $content = $view->render('error/index.phtml', $vars);
+            $content = $view->render('error/error.phtml', $vars);
 
             // Layout
             $layoutHandler($content, $response);
             return $response;
-        });
+        }, -5);*/
 
         // Error handling
-        $app->events()->attach('dispatch.error', function($e) use ($view, $layoutHandler) {
-            $error   = $e->getParam('error');
+        $app->events()->attach('dispatch', function($e) use ($view, $layoutHandler) {
+            $error   = $e->getResponse()->getStatusCode();
             $app     = $e->getTarget();
-
             switch ($error) {
                 case Application::ERROR_CONTROLLER_NOT_FOUND:
                     $vars = array(
@@ -210,6 +209,7 @@ class Bootstrap
             $response = $app->getResponse();
             $layoutHandler($content, $response);
             return $response;
-        });
+        }, -5);
+        
     }
 }
