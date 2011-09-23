@@ -2,7 +2,7 @@
 
 namespace Buggy\Controller;
 
-use Zf2Mvc\Controller\ActionController,
+use Zend\Mvc\Controller\ActionController,
 	Buggy\Resource\DoctrineEntityManager as DoctrineEntityManager;
 
 class IndexController extends ActionController

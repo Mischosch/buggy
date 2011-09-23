@@ -2,7 +2,7 @@
 
 namespace Buggy\Controller;
 
-use Zf2Mvc\Controller\ActionController,
+use Zend\Mvc\Controller\ActionController,
 	Zend\Controller\Plugin\ErrorHandler as ErrorHandler;
 
 class ErrorController extends ActionController

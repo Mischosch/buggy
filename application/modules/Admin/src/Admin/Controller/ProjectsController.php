@@ -2,13 +2,15 @@
 
 namespace Admin\Controller;
 
+use Zend\Debug;
+
 use Buggy\Model\Project,
 	Admin\Service\Projects, 
 	Zend\Filter\Digits, 
 	Zend\Controller\Action\Helper\FlashMessenger,
 	Buggy\Resource\DoctrineEntityManager as DoctrineEntityManager, 
-	Zf2Mvc\Controller\ActionController, 
-	Zf2Mvc\Router\RouteStack;
+	Zend\Mvc\Controller\ActionController, 
+	Zend\Mvc\Router\RouteStack;
 
 class ProjectsController extends ActionController
 {
@@ -176,7 +178,7 @@ class ProjectsController extends ActionController
     }
     
     /**
-     * @param Zf2Mvc\Router\RouteStack $router
+     * @param Zend\Mvc\Router\RouteStack $router
      * @return Admin\Controller\ProjectsController
      */
 	public function setRouter(RouteStack $router)

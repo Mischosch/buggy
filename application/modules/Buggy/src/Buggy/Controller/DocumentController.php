@@ -3,7 +3,7 @@
 /** @namespace */
 namespace Buggy;
 
-use Zend\Controller\Action as ActionController,
+use Zend\Mvc\Controller\Action as ActionController,
 	Application\Document,
     Zend\Registry,
     Zend\Debug;

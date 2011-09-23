@@ -94,7 +94,7 @@ $config = array(
 
     'routes' => array(
         'default' => array(
-            'type'    => 'Zf2Mvc\Router\Http\Regex',
+            'type'    => 'Zend\Mvc\Router\Http\Regex',
             'options' => array(
                 'regex' => '/(?P<controller>[^/]+)(/(?P<action>[^/]+)?)?',
                 'defaults' => array(
@@ -105,7 +105,7 @@ $config = array(
             ),
         ),
         'home' => array(
-            'type' => 'Zf2Mvc\Router\Http\Literal',
+            'type' => 'Zend\Mvc\Router\Http\Literal',
             'options' => array(
                 'route' => '/',
                 'defaults' => array(

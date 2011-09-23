@@ -19,7 +19,7 @@ $config = array(
         	'parameters' => array(
         		'em' => 'Buggy\Resource\DoctrineEntityManager', 
         		'projectService' => 'Admin\Service\Projects', 
-        		'router' => 'Zf2Mvc\Router\SimpleRouteStack'
+        		'router' => 'Zend\Mvc\Router\SimpleRouteStack'
         	)
         ), 
         
@@ -51,7 +51,7 @@ $config = array(
 
     'routes' => array(
         'admin' => array(
-            'type'    => 'Zf2Mvc\Router\Http\Module',
+            'type'    => 'Zend\Mvc\Router\Http\Module',
             'options' => array(
                 'route' => '/:module/:controller/:action/*',
                 'defaults' => array(

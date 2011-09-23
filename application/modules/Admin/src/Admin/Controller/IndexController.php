@@ -4,7 +4,7 @@
 namespace Admin\Controller;
 
 use Buggy\Resource\DoctrineEntityManager, 
-	Zf2Mvc\Controller\ActionController;
+	Zend\Mvc\Controller\ActionController;
 
 class IndexController extends ActionController
 {
