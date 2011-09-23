@@ -7,17 +7,15 @@ use Zend\Config\Config,
 
 class Module
 {
-    public static function getConfig()
-    {
-        return new Config(include __DIR__ . '/configs/config.php');
-    }
-
-    public function init($eventCollection)
+	
+	public function init()
     {
         $this->initAutoloader();
-        $eventCollection->attach('init.post', function($e) {
-            // This is ran after all modules' init() have ran
-        });
+    }
+
+    protected function initAutoloaderNew()
+    {
+        include __DIR__ . '/autoload_register.php';
     }
 
     protected function initAutoloader()
@@ -34,5 +32,10 @@ class Module
             	'fallback_autoloader' => false
             )
         ));
+    }
+	
+    public static function getConfig()
+    {
+        return new Config(include __DIR__ . '/configs/config.php');
     }
 }
