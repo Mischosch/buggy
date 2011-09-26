@@ -22,9 +22,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Zend/Loader/AutoloaderFactory.php';
 Zend\Loader\AutoloaderFactory::factory(array(
     'Zend\Loader\ClassMapAutoloader' => array(
-        BASE_PATH . '/library/Buggy/.classmap.php',
-        BASE_PATH . '/modules/Zf2Module/autoload_classmap.php',
-        //BASE_PATH . '/modules/Zf2Mvc/classmap.php',
+        BASE_PATH . '/modules/ZendModule/autoload_classmap.php',
     ),
     'Zend\Loader\StandardAutoloader' => array()
 ));

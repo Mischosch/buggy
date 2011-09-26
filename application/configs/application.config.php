@@ -5,8 +5,8 @@ return new Zend\Config\Config(array(
         realpath(__DIR__ . '/../../modules'),
     ),
     'modules' => array(
-        'Zf2Module', // @todo: really need it?
-        'Zf2Mvc',
+        'ZendModule', // @todo: really need it?
+        'ZendMvc',
         'Buggy',
         'Admin',
     ),
