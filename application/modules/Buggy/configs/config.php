@@ -1,7 +1,7 @@
 <?php
-
-$config = array(
+return array_replace_recursive(array(
     'bootstrap_class' => 'Buggy\Bootstrap',
+    'display_exceptions' => 1,
     'di' => array( 'instance' => array(
         'alias' => array(
             'index'    => 'Buggy\Controller\IndexController',
@@ -38,15 +38,6 @@ $config = array(
             'parameters' => array(
                 'broker' => 'Zend\View\HelperBroker',
             )
-        ),
-        
-        'Zend\Layout\Layout' => array(
-       		'parameters' => array(
-        		'options' => array(
-                	'layoutPath' => APPLICATION_PATH . '/modules/Buggy/views/layouts/',
-        			'layout' => 'buggy',
-        		),
-            ),
         ),
         
         'Buggy\Action\Helper\BaseInit' => array(
@@ -115,10 +106,4 @@ $config = array(
             ),
         ),
     ),
-);
-if (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) {
-    $config = new Zend\Config\Config($config, true);
-    $config->merge(new Zend\Config\Config(include __DIR__ . '/config.' . APPLICATION_ENV . '.php'));
-    return $config->toArray();
-}
-return $config;
+), (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) ? include __DIR__ . '/config.' . APPLICATION_ENV . '.php' : array());

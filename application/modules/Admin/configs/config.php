@@ -1,6 +1,5 @@
 <?php
-
-$config = array(
+return array_replace_recursive(array(
     'di' => array( 'instance' => array(
         'alias' => array(
             'admin_index' => 'Admin\Controller\IndexController',
@@ -41,7 +40,7 @@ $config = array(
 	                'resolver' => 'Zend\View\TemplatePathStack',
 	                'options' => array(
 	                    'script_paths' => array(
-	                        'admin' => __DIR__ . '/../views'
+	                        'admin' => __DIR__ . '/../views',
 	                    ),
 	                ),
 	            ),
@@ -62,10 +61,4 @@ $config = array(
             ),
         ),
     ),
-);
-if (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) {
-    $config = new Zend\Config\Config($config, true);
-    $config->merge(new Zend\Config\Config(include __DIR__ . '/config.' . APPLICATION_ENV . '.php'));
-    return $config->toArray();
-}
-return $config;
+), (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) ? include __DIR__ . '/config.' . APPLICATION_ENV . '.php' : array());
