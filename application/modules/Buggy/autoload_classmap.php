@@ -10,6 +10,7 @@ return array (
   'Buggy\\Form\\Decorator' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'Form' . DIRECTORY_SEPARATOR . 'Decorator.php',
   'Buggy\\Form\\Decorator\\BootstrapErrors' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'Form' . DIRECTORY_SEPARATOR . 'Decorator' . DIRECTORY_SEPARATOR . 'BootstrapErrors.php',
   'Buggy\\Form\\Decorator\\BootstrapTag' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'Form' . DIRECTORY_SEPARATOR . 'Decorator' . DIRECTORY_SEPARATOR . 'BootstrapTag.php',
+  'Buggy\\View\\Listener' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Listener.php',
   'Buggy\\View\\Helper\\Url' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Helper' . DIRECTORY_SEPARATOR . 'Url.php',
   'Buggy\\View\\Helper\\MessagesFormatter' => __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Buggy' . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR . 'Helper' . DIRECTORY_SEPARATOR . 'MessagesFormatter.php',
   'Buggy\\Module' => __DIR__ . DIRECTORY_SEPARATOR . 'Module.php',
