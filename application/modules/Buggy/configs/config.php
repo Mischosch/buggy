@@ -4,13 +4,13 @@ return array_replace_recursive(array(
     'display_exceptions' => 1,
     'di' => array( 'instance' => array(
         'alias' => array(
-            'index'    => 'Buggy\Controller\IndexController',
-            'error'    => 'Buggy\Controller\ErrorController',
-            'view'     => 'Zend\View\PhpRenderer',
-            'layout'   => 'Zend\Layout\Layout',
-			'em'       => 'Buggy\Resource\DoctrineEntityManager',
-			'dm'       => 'Buggy\Resource\CouchDocumentManager',
-			'BaseInit' => 'Buggy\Action\Helper\BaseInit'
+            'index'    => 'Buggy\Controller\IndexController', 
+            'error'    => 'Buggy\Controller\ErrorController', 
+            'view'     => 'Zend\View\PhpRenderer', 
+            'layout'   => 'Zend\Layout\Layout', 
+            'em'       => 'Buggy\Resource\DoctrineEntityManager', 
+            'dm'       => 'Buggy\Resource\CouchDocumentManager', 
+            'BaseInit' => 'Buggy\Action\Helper\BaseInit'
         ),
 
         'Zend\View\HelperLoader' => array('parameters' => array(
@@ -90,7 +90,7 @@ return array_replace_recursive(array(
                 'regex' => '/(?P<controller>[^/]+)(/(?P<action>[^/]+)?)?',
                 'defaults' => array(
                     'controller' => 'error',
-                    'action'     => 'error',
+                    'action'     => 'index',
                 ),
                 'spec' => '/%s/%s',
             ),
