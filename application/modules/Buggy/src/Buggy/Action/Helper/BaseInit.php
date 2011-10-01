@@ -34,16 +34,16 @@ class BaseInit extends AbstractHelper
     	$this->view->plugin('headScript')->appendFile('/js/admin.js');
         $this->view->plugin('headLink')->appendStylesheet('/css/admin.css', 'screen, projection');
         $this->view->plugin('headTitle')->prepend('Admin');
-        $this->view->vars()->activeNavPoint = $controllerName;
-        $this->view->vars()->title = ucfirst($controllerName);
+        $this->view->vars()->controller = $controllerName;
         $this->view->plugin('headTitle')->prepend(ucfirst($controllerName));
         return $this;
     }
     
-	public function buggyInit() 
+	public function buggyInit($controllerName) 
     {
     	$this->view->plugin('headScript')->appendFile('buggy.js');
         $this->view->plugin('headLink')->appendStylesheet('/css/buggy.css', 'screen, projection');
+        $this->view->plugin('headTitle')->prepend(ucfirst($controllerName));
         return $this;
     }
     
