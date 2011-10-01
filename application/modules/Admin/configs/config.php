@@ -2,10 +2,10 @@
 return array_replace_recursive(array(
     'di' => array( 'instance' => array(
         'alias' => array(
-            'admin_index' => 'Admin\Controller\IndexController',
-            'admin_overview' => 'Admin\Controller\OverviewController',
-            'admin_projects' => 'Admin\Controller\ProjectsController',
-            'view'  => 'Zend\View\PhpRenderer',
+            'admin-index'    => 'Admin\Controller\IndexController',
+            'admin-overview' => 'Admin\Controller\OverviewController',
+            'admin-projects' => 'Admin\Controller\ProjectsController',
+            'view'           => 'Zend\View\PhpRenderer',
         ),
         
         'Admin\Controller\OverviewController' => array(
@@ -50,13 +50,25 @@ return array_replace_recursive(array(
 
     'routes' => array(
         'admin' => array(
-            'type'    => 'Zend\Mvc\Router\Http\Module',
+            'type'    => 'Zend\Mvc\Router\Http\Namespaces',
             'options' => array(
-                'route' => '/:module/:controller/:action/*',
+                'namespace' => 'admin', 
                 'defaults' => array(
-    				'module'     => 'admin',
-                    'controller' => 'overview',
-                    'action'     => 'index',
+                    'namespace'  => 'admin',
+                    'controller' => 'index',
+                    'action'     => 'index'
+                ),
+            ),
+        ),
+        'projectedit' => array(
+            'type'    => 'Zend\Mvc\Router\Http\Route',
+            'options' => array(
+                'route' => '/admin/pedit/:id',
+                'defaults' => array(
+                    'namespace'  => 'admin',
+                    'controller' => 'projects',
+                    'action'     => 'edit',
+                    'id'     	 => '',
                 ),
             ),
         ),
