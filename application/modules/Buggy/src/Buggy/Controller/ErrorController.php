@@ -7,8 +7,10 @@ use Zend\Mvc\Controller\ActionController,
 
 class ErrorController extends ActionController
 {
+    const ERROR_NO_ROUTE = 404;
+    const ERROR_NO_CONTROLLER = 404;
 
-    public function errorAction()
+    public function indexAction()
     {
         $error = $this->request->getMetadata('error', false);
         if (!$error) {
@@ -30,17 +32,4 @@ class ErrorController extends ActionController
         return array('message' => $error['message']);
     }
 
-    public function getLog()
-    {
-        /* @var $bootstrap Zend\Application\Bootstrap */
-        $bootstrap = $this->getInvokeArg('bootstrap');
-        if (!$bootstrap->getBroker()->hasPlugin('Log')) {
-            return false;
-        }
-        $log = $bootstrap->getResource('Log');
-        return $log;
-    }
-
-
 }
-
