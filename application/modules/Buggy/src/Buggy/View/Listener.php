@@ -17,6 +17,7 @@ class Listener implements ListenerAggregate
     protected $view;
     protected $di;
     protected $displayExceptions = false;
+    protected $defaultNamespace = 'buggy';
 
     public function __construct(Renderer $renderer, $layout = 'layout.phtml')
     {
@@ -43,7 +44,8 @@ class Listener implements ListenerAggregate
 
     public function attach(EventCollection $events)
     {
-        $this->listeners[] = $events->attach('dispatch.error', array($this, 'renderError'));
+        $this->listeners[] = $events->attach('dispatch.error', array($this, 'baseInit'), 1);
+        $this->listeners[] = $events->attach('dispatch.error', array($this, 'renderError'), 0);
         $this->listeners[] = $events->attach('dispatch', array($this, 'baseInit'), -50);
         $this->listeners[] = $events->attach('dispatch', array($this, 'render404'), -80);
         $this->listeners[] = $events->attach('dispatch', array($this, 'renderView'), -100);
@@ -64,19 +66,19 @@ class Listener implements ListenerAggregate
     	$baseInit = $this->di->get('BaseInit');
     	$request = $e->getRequest();
         $uri = $request->getUri();
+        $routeMatch = $e->getRouteMatch();
+        $controller = $routeMatch->getParam('controller', 'error');
     	if (strpos($uri, '/admin') !== false) {
-        	$routeMatch = $e->getRouteMatch();
-            $controller = $routeMatch->getParam('controller', 'error');
             $baseInit->init()->adminInit($controller);
         } else {
-           	$baseInit->init()->buggyInit();
+           	$baseInit->init()->buggyInit($controller);
         }
     }
 
     public function renderView(MvcEvent $e)
     {
         $routeMatch = $e->getRouteMatch();
-        $module     = $routeMatch->getParam('module', null);
+        $namespace  = $routeMatch->getParam('namespace', null);
         $controller = $routeMatch->getParam('controller', 'index');
         $action     = $routeMatch->getParam('action', 'index');
         $script     = $controller . '/' . $action . '.phtml';
@@ -89,19 +91,20 @@ class Listener implements ListenerAggregate
         }
 
         // Action content
-        if (! empty($module)) {
-            $paths = $this->view->resolver()->getPaths();
-            $pathToSet = false;
-            foreach ($paths as $path) {
-                if (strpos($path, ucfirst($module))) {
-                    $pathToSet = $path;
-                }
-            }
-            if (isset($pathToSet)) {
-                $this->view->resolver()->setPaths(array($pathToSet));
+        if (empty($namespace)) {
+            $namespace = $this->defaultNamespace;   
+        }
+        $paths = $this->view->resolver()->getPaths();
+        $pathToSet = false;
+        foreach ($paths as $path) {
+            if (strpos($path, ucfirst($namespace))) {
+                $pathToSet = $path;
             }
         }
-        $content    = $this->view->render($script, $vars);
+        if (isset($pathToSet)) {
+            $this->view->resolver()->setPaths(array($pathToSet));
+        }
+        $content = $this->view->render($script, $vars);
 
         $e->setResult($content);
         return $content;
@@ -110,7 +113,10 @@ class Listener implements ListenerAggregate
     public function renderLayout(MvcEvent $e)
     {
         $content  = $e->getResult();
-        $layout   = $this->view->render($this->layout, array('content' => $content));
+        $layout   = $this->view->render($this->layout, array(
+        	'content' => $content,
+        	'controller' => $this->view->vars('controller')
+        ));
         $response = $e->getResponse();
         if (!$response) {
             $response = new Response();
