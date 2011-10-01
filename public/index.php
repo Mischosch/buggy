@@ -6,7 +6,7 @@ defined('BASE_PATH')
     
 // Define path to application directory
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(__DIR__ . '/../application'));
+    || define('APPLICATION_PATH', BASE_PATH .'/application');
 
 // Define application environment
 defined('APPLICATION_ENV')
@@ -14,16 +14,13 @@ defined('APPLICATION_ENV')
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../library'),
+    BASE_PATH . '/library',
     get_include_path(),
 )));
 
 // Autoloader
 require_once 'Zend/Loader/AutoloaderFactory.php';
 Zend\Loader\AutoloaderFactory::factory(array(
-    'Zend\Loader\ClassMapAutoloader' => array(
-        BASE_PATH . '/modules/ZendModule/autoload_classmap.php',
-    ),
     'Zend\Loader\StandardAutoloader' => array()
 ));
 
