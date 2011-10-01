@@ -19,16 +19,15 @@
 <div id="pageContainer" class="container">
 	
 	<noscript>Please activate Javascript to use this website!</noscript>
-	
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
 				<h3><a href="/admin/overview">Buggy Administration</a></h3>
 				<ul>
-					<li<?php if ($this->vars('activeNavPoint') == 'projects') echo ' class="active"'; ?>>
+					<li<?php if ($this->controller == 'projects') echo ' class="active"'; ?>>
 						<a href="/admin/projects">Projects</a>
 					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'users') echo ' class="active"'; ?>>
+					<li<?php if ($this->controller == 'users') echo ' class="active"'; ?>>
 						<a href="/admin/users">Users</a>
 					</li>
 				</ul>
