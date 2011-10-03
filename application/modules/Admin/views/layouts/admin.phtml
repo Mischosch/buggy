@@ -6,10 +6,10 @@
 <html>
 <head>
 <?php 
-    echo $this->plugin('headTitle')->toString(); 
-    echo $this->plugin('headMeta')->toString(); 
-    echo $this->plugin('headLink')->toString(); 
-    echo $this->plugin('headScript')->toString(); 
+    echo $this->plugin('headTitle'); 
+    echo $this->plugin('headMeta'); 
+    echo $this->plugin('headLink'); 
+    echo $this->plugin('headScript'); 
 ?> 
 <link href="/favicon.ico" type="image/x-icon" rel="icon" />
 <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
@@ -22,7 +22,7 @@
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
-				<h3><a href="/admin/overview">Buggy Administration</a></h3>
+				<h3><a href="/admin/index">Buggy Administration</a></h3>
 				<ul>
 					<li<?php if ($this->controller == 'projects') echo ' class="active"'; ?>>
 						<a href="/admin/projects">Projects</a>
@@ -35,7 +35,7 @@
 		</div>
 	</div>
 	
-	<?php echo $this->vars()->getRawValue('content'); ?>
+	<?php echo $this->raw('content'); ?>
 
 	<footer>
     	<p class="row">

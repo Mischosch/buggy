@@ -6,10 +6,10 @@
 <html>
 <head>
 <?php 
-    echo $this->plugin('headTitle')->toString(); 
-    echo $this->plugin('headMeta')->toString(); 
-    echo $this->plugin('headLink')->toString(); 
-    echo $this->plugin('headScript')->toString(); 
+    echo $this->plugin('headTitle'); 
+    echo $this->plugin('headMeta'); 
+    echo $this->plugin('headLink'); 
+    echo $this->plugin('headScript'); 
 ?> 
 <link href="/favicon.ico" type="image/x-icon" rel="icon" />
 <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
@@ -23,25 +23,25 @@
 	<div class="topbar">
 		<div class="fill">
 			<div class="container">
-				<h3><a href="/admin/index">Buggy</a></h3>
+				<h3><a href="/">Buggy</a></h3>
 				<ul>
-					<li<?php if ($this->vars('activeNavPoint') == 'xyz') echo ' class="active"'; ?>>
-						<a href="/admin/index/xyz">Xyz</a>
+					<li<?php if ($this->controller == 'index') echo ' class="active"'; ?>>
+						<a href="/index/index">Index</a>
 					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'zyx') echo ' class="active"'; ?>>
-						<a href="/admin/zyx">Zyx</a>
+					<li<?php if ($this->controller == 'zyx') echo ' class="active"'; ?>>
+						<a href="/abc/zyx">Zyx</a>
 					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'yxz') echo ' class="active"'; ?>>
-						<a href="/admin/yxz">Yxz</a>
+					<li<?php if ($this->controller == 'yxz') echo ' class="active"'; ?>>
+						<a href="/abc/yxz">Yxz</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	
-	<div class="page-header"><h1><?php echo $this->vars('title'); ?></h1></div>
+	<div class="page-header"><h1><?php echo ucfirst($this->vars('controller')); ?></h1></div>
 	
-	<?php echo $this->vars()->getRawValue('content'); ?>
+	<?php echo $this->raw('content'); ?>
 
 	<footer>
     	<p class="row">
