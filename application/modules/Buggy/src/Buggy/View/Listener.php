@@ -4,6 +4,7 @@ namespace Buggy\View;
 
 use ArrayAccess,
     Zend\EventManager\EventCollection,
+    Zend\EventManager\StaticEventCollection,
     Zend\EventManager\ListenerAggregate,
     Zend\Http\Response,
     Zend\Mvc\Application,
@@ -14,6 +15,7 @@ class Listener implements ListenerAggregate
 {
     protected $layout;
     protected $listeners = array();
+    protected $staticListeners = array();
     protected $view;
     protected $di;
     protected $displayExceptions = false;
@@ -30,6 +32,11 @@ class Listener implements ListenerAggregate
         $this->displayExceptions = (bool) $flag;
         return $this;
     }
+
+    public function displayExceptions()
+    {
+        return $this->displayExceptions;
+    }
     
 	public function setDiContainer($di)
     {
@@ -37,18 +44,11 @@ class Listener implements ListenerAggregate
         return $this;
     }
 
-    public function displayExceptions()
-    {
-        return $this->displayExceptions;
-    }
-
     public function attach(EventCollection $events)
     {
         $this->listeners[] = $events->attach('dispatch.error', array($this, 'baseInit'), 1);
         $this->listeners[] = $events->attach('dispatch.error', array($this, 'renderError'), 0);
-        $this->listeners[] = $events->attach('dispatch', array($this, 'baseInit'), -50);
         $this->listeners[] = $events->attach('dispatch', array($this, 'render404'), -80);
-        $this->listeners[] = $events->attach('dispatch', array($this, 'renderView'), -100);
         $this->listeners[] = $events->attach('dispatch', array($this, 'renderLayout'), -1000);
     }
 
@@ -61,24 +61,42 @@ class Listener implements ListenerAggregate
         }
     }
     
+    public function registerStaticListeners(StaticEventCollection $events, $locator)
+    {
+        $ident   = 'Application\Controller\PageController';
+        $handler = $events->attach($ident, 'dispatch', array($this, 'renderPageController'), -50);
+        $this->staticListeners[] = array($ident, $handler);
+
+        $ident   = 'Zend\Mvc\Controller\ActionController';
+        $handler = $events->attach($ident, 'dispatch', array($this, 'renderView'), -50);
+        $this->staticListeners[] = array($ident, $handler);
+        
+        $ident   = 'Zend\Mvc\Controller\ActionController';
+        $handler = $events->attach($ident, 'dispatch', array($this, 'baseInit'), 50);
+        $this->staticListeners[] = array($ident, $handler);
+    }
+    
     public function baseInit(MvcEvent $e)
     {
     	$baseInit = $this->di->get('BaseInit');
     	$request = $e->getRequest();
         $uri = $request->getUri();
         $routeMatch = $e->getRouteMatch();
+        $namespace = $routeMatch->getParam('namespace', $this->defaultNamespace);
         $controller = $routeMatch->getParam('controller', 'error');
-    	if (strpos($uri, '/admin') !== false) {
-            $baseInit->init()->adminInit($controller);
-        } else {
-           	$baseInit->init()->buggyInit($controller);
-        }
+        $init = $namespace . 'Init';
+    	$baseInit->init()->$init($controller);
     }
 
     public function renderView(MvcEvent $e)
     {
+        $response = $e->getResponse();
+        if (!$response->isSuccess()) {
+            return;
+        }
+        
         $routeMatch = $e->getRouteMatch();
-        $namespace  = $routeMatch->getParam('namespace', null);
+        $namespace  = $routeMatch->getParam('namespace', $this->defaultNamespace);
         $controller = $routeMatch->getParam('controller', 'index');
         $action     = $routeMatch->getParam('action', 'index');
         $script     = $controller . '/' . $action . '.phtml';
@@ -91,9 +109,6 @@ class Listener implements ListenerAggregate
         }
 
         // Action content
-        if (empty($namespace)) {
-            $namespace = $this->defaultNamespace;   
-        }
         $paths = $this->view->resolver()->getPaths();
         $pathToSet = false;
         foreach ($paths as $path) {
@@ -112,16 +127,28 @@ class Listener implements ListenerAggregate
 
     public function renderLayout(MvcEvent $e)
     {
-        $content  = $e->getResult();
-        $layout   = $this->view->render($this->layout, array(
-        	'content' => $content,
-        	'controller' => $this->view->vars('controller')
-        ));
         $response = $e->getResponse();
         if (!$response) {
             $response = new Response();
             $e->setResponse($response);
         }
+        if ($response->isRedirect()) {
+            return $response;
+        }
+        
+        $vars = array('controller' => $this->view->vars('controller'));
+        
+        if (false !== ($contentParam = $e->getParam('content', false))) {
+            $vars['content'] = $contentParam;
+        } else {
+            $vars['content'] = $e->getResult();
+        }
+        
+        $namespace  = $e->getRouteMatch()
+            ->getParam('namespace', $this->defaultNamespace);
+        $this->layout = 'layouts/' . $namespace . '.phtml';
+        
+        $layout = $this->view->render($this->layout, $vars);
         $response->setContent($layout);
         return $response;
     }
