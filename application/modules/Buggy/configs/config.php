@@ -2,6 +2,7 @@
 return array_replace_recursive(array(
     'bootstrap_class' => 'Buggy\Bootstrap',
     'display_exceptions' => 1,
+    'layout' => 'layouts/buggy.phtml',
     'di' => array( 'instance' => array(
         'alias' => array(
             'index'    => 'Buggy\Controller\IndexController', 
