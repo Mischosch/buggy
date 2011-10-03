@@ -44,6 +44,7 @@ class BaseInit extends AbstractHelper
     	$this->view->plugin('headScript')->appendFile('buggy.js');
         $this->view->plugin('headLink')->appendStylesheet('/css/buggy.css', 'screen, projection');
         $this->view->plugin('headTitle')->prepend(ucfirst($controllerName));
+        $this->view->vars()->controller = $controllerName;
         return $this;
     }
     
