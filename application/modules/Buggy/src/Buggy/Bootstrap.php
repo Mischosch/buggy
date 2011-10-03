@@ -12,15 +12,18 @@ use Zend\Config\Config,
     Zend\EventManager\StaticEventManager,
     Zend\Stdlib\ResponseDescription as Response,
     Zend\View\Variables as ViewVariables,
+    Zend\Module\Manager as ModuleManager, 
     Zend\Mvc\Application;
 
 class Bootstrap
 {
     protected $config;
+    protected $modules;
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, ModuleManager $modules)
     {
         $this->config = $config;
+        $this->modules = $modules; 
     }
 
     public function bootstrap(Application $app)
@@ -55,25 +58,32 @@ class Bootstrap
         }
         $app->setRouter($router);
     }
-
+    
     protected function setupEvents(Application $app)
+    {
+        $view         = $this->getView($app);
+        $locator      = $app->getLocator();
+        $events       = $app->events();
+        $staticEvents = StaticEventManager::getInstance();
+
+        foreach ($this->modules->getLoadedModules() as $name => $module) {
+            if (method_exists($module, 'registerApplicationListeners')) {
+                $module->registerApplicationListeners($events, $locator, $this->config);
+            }
+
+            if (method_exists($module, 'registerStaticListeners')) {
+                $module->registerStaticListeners($staticEvents, $locator, $this->config);
+            }
+        }
+    }
+
+    protected function getView($app)
     {
         $di      = $app->getLocator();
         $view    = $di->get('view');
-        
         $url     = $view->plugin('url');
         $url->setRouter($app->getRouter());
-        
-        $request = $app->getRequest();
-        $uri = $request->getUri();
-        $layoutPath = 'layouts/buggy.phtml';
-    	if (strpos($uri, '/admin') !== false) {
-            $layoutPath = 'layouts/admin.phtml';
-        }
-        $listener = new View\Listener($view, $layoutPath);
-        $listener->setDisplayExceptionsFlag($this->config->display_exceptions);
-        $listener->setDiContainer($di);
-        $app->events()->attachAggregate($listener);
-        
+
+        return $view;
     }
 }
