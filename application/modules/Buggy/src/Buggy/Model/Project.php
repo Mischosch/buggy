@@ -2,7 +2,8 @@
 
 namespace Buggy\Model;
 
-use Gedmo\Mapping\Annotation\Timestampable, 
+use Gedmo\Mapping\Annotation as Gedmo,
+    Doctrine\ORM\Mapping as ORM, 
 	DoctrineExtensions\Versionable\Versionable, 
 	Buggy\Model\ProjectVersion;
 
@@ -19,13 +20,13 @@ class Project implements Versionable
 	 */
     private $id;
     
-    /** 
-     * @Column(length=255) 
+    /**
+     * @Column(name="title", type="string", length=128)
      */
     private $title;
     
     /** 
-     * @Column(type="text") 
+     * @Column(type="text")
      */
     private $description;
     
@@ -33,6 +34,12 @@ class Project implements Versionable
      * @Column(type="integer") 
      */
     private $public;
+    
+    /**
+     * @Column(name="slug", type="string", length=128, unique=true)
+     * @Gedmo\Slug(fields={"title"}, style="default", separator="-", updatable=true, unique=true)
+     */
+    private $slug;
     
     /**
      * @Column(type="integer")
@@ -44,7 +51,7 @@ class Project implements Versionable
      * @var datetime $created
      *
      * @Column(type="datetime")
-     * @Timestampable(on="create")
+     * @Gedmo\Timestampable(on="create")
      */
     private $created;
 
@@ -52,7 +59,7 @@ class Project implements Versionable
      * @var datetime $updated
      *
      * @Column(type="datetime")
-     * @Timestampable(on="update")
+     * @Gedmo\Timestampable(on="update")
      */
     private $updated;
     
@@ -96,6 +103,13 @@ class Project implements Versionable
 	 */
 	public function getVersion() {
 		return $this->version;
+	}
+	
+	/**
+	 * @return the $slug
+	 */
+	public function getSlug() {
+		return $this->slug;
 	}
 
 	/**
