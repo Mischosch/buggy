@@ -30,7 +30,7 @@ $config = array(
                     'resolver' => 'Zend\View\TemplatePathStack',
                     'options'  => array(
                         'script_paths' => array(
-                            'application' => __DIR__ . '/../views',
+                            'buggyadmin' => __DIR__ . '/../views',
                         ),
                     ),
                 ),
