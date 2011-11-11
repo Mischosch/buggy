@@ -1,0 +1,53 @@
+<div class="page-header row">
+	<h1 class="span14 columns"><?php echo $this->vars('title'); ?></h1>
+	<div class="span2 columns">
+    	<a class="btn small primary" href="<?= 
+    		$this->url('default',array('action' => 'add', 'controller' => 'projects')); 
+    	?>">
+    		Add Project
+    	</a>
+    </div>
+</div>
+
+<div class="row">
+	<div class="span16 columns"></div>
+    
+    <div class="span16 columns">
+        <table summary="" class="zebra-striped">
+        <thead>
+        	<tr>
+        		<th>ID</th>
+        		<th>Title</th>
+        		<th>Description</th>
+        		<th class="tcenter">Public</th>
+        		<th class="tcenter">Version</th>
+        		<th>Created</th>
+        		<th>Functions</th>
+        	</tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->vars('projects') AS $project): ?>
+        	<tr>
+        		<td><?= $project->getId(); ?></td>
+        		<td><?= $project->getTitle(); ?></td>
+        		<td><?= $project->getDescription(); ?></td>
+        		<td class="tcenter"><?= $project->getPublic('string'); ?></td>
+        		<td class="tcenter"><?= $project->getVersion(); ?></td>
+        		<td><?= $project->getCreated(); ?></td>
+        		<td>
+        			<a href="<?= $this->plugin('url')->direct(array(
+		    			'controller' => 'projects',
+        				'action' => 'edit',
+		        		'id' => $project->getId()
+		    		), array('name' => 'admin')); ?>">Edit</a>
+        			<a href="<?= $this->plugin('url')->direct(array(
+		    			'action' => 'delete',
+		        		'id' => $project->getId()
+		    		), array('name' => 'admin')); ?>">Delete</a>
+    		    </td>
+        	</tr>
+        <?php endforeach; ?>
+        </tbody>
+        </table>
+    </div>
+</div>

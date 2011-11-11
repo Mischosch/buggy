@@ -1,0 +1,68 @@
+<?php 
+	use Zend\Registry;
+?>
+<?= $this->plugin('doctype'); ?>
+
+<html>
+<head>
+<?php 
+    echo $this->plugin('headTitle')->toString(); 
+    echo $this->plugin('headMeta')->toString(); 
+    echo $this->plugin('headLink')->toString(); 
+    echo $this->plugin('headScript')->toString(); 
+?> 
+<link href="/favicon.ico" type="image/x-icon" rel="icon" />
+<link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
+</head>
+<body>
+
+<div id="pageContainer" class="container">
+	
+	<noscript>Please activate Javascript to use this website!</noscript>
+	
+	<div class="topbar">
+		<div class="fill">
+			<div class="container">
+				<h3><a href="/admin/index">Buggy</a></h3>
+				<ul>
+					<li<?php if ($this->vars('activeNavPoint') == 'xyz') echo ' class="active"'; ?>>
+						<a href="/admin/index/xyz">Xyz</a>
+					</li>
+					<li<?php if ($this->vars('activeNavPoint') == 'zyx') echo ' class="active"'; ?>>
+						<a href="/admin/zyx">Zyx</a>
+					</li>
+					<li<?php if ($this->vars('activeNavPoint') == 'yxz') echo ' class="active"'; ?>>
+						<a href="/admin/yxz">Yxz</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<div class="page-header"><h1><?php echo $this->vars('title'); ?></h1></div>
+	
+	<?php echo $this->vars()->getRawValue('content'); ?>
+
+	<footer>
+    	<p class="row">
+    		<span class="span14 columns">
+    			&copy; <b>we</b>{src} Michael Scholl &amp; Leander Damme
+    		</span>
+    		<?php if (Registry::isRegistered('user')) : ?>
+    		<span class="span2 columns tright">
+    			<a class="btn small" href="<?php
+        		    echo $this->url(array(
+        		        'module' => 'auth',
+        		        'controller' => 'auth', 
+        		    	'action' => 'logout'
+        		    ), 'auth', true);
+    		    ?>">Logout</a>
+    		</span>
+    		<?php endif; ?>
+    	</p>
+	</footer>
+
+</div>
+
+</body>
+</html>
