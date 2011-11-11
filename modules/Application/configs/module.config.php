@@ -45,6 +45,7 @@ return array(
                 ),
                 'defaults' => array(
                     'controller' => 'index',
+                    'action'     => 'index',
                 ),
             ),
         ),
