@@ -2,6 +2,9 @@
 return array(
     'buggy' => array(
     ),
+    'spiffy-doctrine-extensions' => array(
+        'timestampable' => true,
+    ),
     'di' => array(
         'instance' => array(
             'alias' => array(
@@ -43,9 +46,7 @@ return array(
                 'parameters' => array(
                     'opts' => array(
                         'subscribers' => array(
-                        	 'Gedmo\Timestampable\TimestampableListener',
-    				'Gedmo\Sluggable\SluggableListener', 
-    				'Gedmo\Tree\TreeListener'
+                        	 'Gedmo\Timestampable\TimestampableListener'
     					)
                     )
                 )

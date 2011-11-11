@@ -15,16 +15,26 @@ class ProjectsController extends ActionController
 	 */
 	protected $em;
 	
+	protected $userService;
+    protected $authService;
+	
 	/*public function init()
     {
     	$this->broker('baseinit');
     }*/
-
+	
     public function indexAction()
     {
+		if (!$this->getAuthService()->hasIdentity()) {
+            return $this->redirect()->toRoute('default', array(
+                'controller' => 'user',
+                'action'     => 'login',
+            )); 
+        }
+
     	$projects = $this->em->getRepository('Buggy\Model\Project')
     		->getProjectList();
-   	    return array('projects' => $projects, 'title' => 'Projects');
+   	    return array('projects' => $projects, 'title' => 'Projects', 'user' => $this->getAuthService()->getIdentity());
     }
     
 	public function allAction()
@@ -73,6 +83,21 @@ class ProjectsController extends ActionController
         return $this;
     }
 
+    public function getUserService()
+    {
+        if (null === $this->userService) {
+            $this->userService = $this->getLocator()->get('edpuser_user_service');
+        }
+        return $this->userService;
+    }
+
+    public function getAuthService()
+    {
+        if (null === $this->authService) {
+            $this->authService = $this->getUserService()->getAuthService();
+        }
+        return $this->authService;
+    }
 
 }
 

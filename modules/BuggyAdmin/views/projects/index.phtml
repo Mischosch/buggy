@@ -10,7 +10,8 @@
 </div>
 
 <div class="row">
-	<div class="span16 columns"></div>
+	<div class="span16 columns">
+	</div>
     
     <div class="span16 columns">
         <table summary="" class="zebra-striped">
@@ -35,15 +36,14 @@
         		<td class="tcenter"><?= $project->getVersion(); ?></td>
         		<td><?= $project->getCreated(); ?></td>
         		<td>
-        			<a href="<?= $this->plugin('url')->direct(array(
+        			<a href="<?= $this->url('default',array('controller' => 'projects', 'action' => 'edit', 'id' => $project->getId())); ?>">
+        				Edit
+        			</a>
+        			<a href="<?= $this->url('default',array(
 		    			'controller' => 'projects',
-        				'action' => 'edit',
+        				'action' => 'delete',
 		        		'id' => $project->getId()
-		    		), array('name' => 'admin')); ?>">Edit</a>
-        			<a href="<?= $this->plugin('url')->direct(array(
-		    			'action' => 'delete',
-		        		'id' => $project->getId()
-		    		), array('name' => 'admin')); ?>">Delete</a>
+		    		)); ?>">Delete</a>
     		    </td>
         	</tr>
         <?php endforeach; ?>
@@ -51,3 +51,5 @@
         </table>
     </div>
 </div>
+
+Hello, <?php echo $this->user->getDisplayName(); ?>! <a href="<?php echo $this->url('default', array('controller' => 'user', 'action' => 'logout')) ?>">[Sign Out]</a>
