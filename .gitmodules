@@ -4,3 +4,15 @@
 [submodule "modules/SpiffyDoctrine"]
 	path = modules/SpiffyDoctrine
 	url = https://github.com/SpiffyJr/SpiffyDoctrine.git
+[submodule "modules/EdpCommon"]
+	path = modules/EdpCommon
+	url = git://github.com/EvanDotPro/EdpCommon.git
+[submodule "modules/EdpMarkdown"]
+	path = modules/EdpMarkdown
+	url = https://github.com/EvanDotPro/EdpMarkdown.git
+[submodule "modules/EdpUser"]
+	path = modules/EdpUser
+	url = git://github.com/EvanDotPro/EdpUser.git
+[submodule "modules/SpiffyDoctrineExtensions"]
+	path = modules/SpiffyDoctrineExtensions
+	url = https://github.com/SpiffyJr/SpiffyDoctrineExtensions.git
