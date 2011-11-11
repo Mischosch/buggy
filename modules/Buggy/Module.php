@@ -3,19 +3,16 @@
 namespace Buggy;
 
 use Zend\Module\Manager,
-    Zend\EventManager\StaticEventManager,
     Zend\Loader\AutoloaderFactory;
 
 class Module
 {
-    protected $view;
-    protected $viewListener;
+    protected static $options;
 
     public function init(Manager $moduleManager)
     {
         $this->initAutoloader();
-        $events = StaticEventManager::getInstance();
-        $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
+        $moduleManager->events()->attach('init.post', array($this, 'postInit'));
     }
 
     protected function initAutoloader()
@@ -36,47 +33,18 @@ class Module
     {
         return include __DIR__ . '/configs/module.config.php';
     }
-    
-    public function initializeView($e)
+
+    public function postInit($e)
     {
-        $app          = $e->getParam('application');
-        $locator      = $app->getLocator();
-        $config       = $e->getParam('modules')->getMergedConfig();
-        $view         = $this->getView($app);
-        $viewListener = $this->getViewListener($view, $config);
-        $app->events()->attachAggregate($viewListener);
-        $events       = StaticEventManager::getInstance();
-        $viewListener->registerStaticListeners($events, $locator);
+        $config = $e->getTarget()->getMergedConfig();
+        static::$options = $config['buggy'];
     }
 
-    protected function getViewListener($view, $config)
+    public static function getOption($option)
     {
-        if ($this->viewListener instanceof View\Listener) {
-            return $this->viewListener;
+        if (!isset(static::$options[$option])) {
+            return null;
         }
-
-        $viewListener       = new View\Listener($view, $config->layout);
-        $viewListener->setDisplayExceptionsFlag($config->display_exceptions);
-
-        $this->viewListener = $viewListener;
-        return $viewListener;
-    }
-
-    protected function getView($app)
-    {
-        if ($this->view) {
-            return $this->view;
-        }
-
-        $di     = $app->getLocator();
-        $view   = $di->get('view');
-        $url    = $view->plugin('url');
-        $url->setRouter($app->getRouter());
-
-        $view->plugin('headTitle')->setSeparator(' - ')
-                                  ->setAutoEscape(false)
-                                  ->append('Application');
-        $this->view = $view;
-        return $view;
+        return static::$options[$option];
     }
 }

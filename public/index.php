@@ -3,9 +3,14 @@
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'production'));
 
+    // Define path to application directory
+defined('APPLICATION_PATH')
+    || define('APPLICATION_PATH', realpath(__DIR__ . '/../application'));
+ 
 // Ensure ZF is on the include path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(__DIR__ . '/../library'),
+    realpath(__DIR__ . '/../library/DoctrineExtensions'),
     realpath(__DIR__ . '/../library/ZendFramework/library'),
     get_include_path(),
 )));

@@ -6,7 +6,12 @@ return array(
     'modules' => array(
         'Application',
     	'SpiffyDoctrine',
-		//'Buggy',
+    	'SpiffyDoctrineExtensions',
+    	'EdpCommon',
+    	'EdpUser',
+    	'EdpMarkdown',
+	'Buggy',
+    	'BuggyAdmin',
     ),
     'module_manager_options' => array( 
         'enable_config_cache'      => false,
