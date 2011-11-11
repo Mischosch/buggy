@@ -3,7 +3,7 @@
 namespace Buggy\ModelBase;
 
 use Doctrine\ORM\Mapping as ORM,
-	Gedmo\Timestampable,
+	Gedmo\Mapping\Annotation as Gedmo,
 	EdpCommon\Model\ModelAbstract;
 
 /**
@@ -42,7 +42,7 @@ class ProjectBase extends ModelAbstract
     /**
      * @var datetime $created
      *
-     * @gedmo:Timestampable(on="create")
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $created;
@@ -50,7 +50,7 @@ class ProjectBase extends ModelAbstract
     /**
      * @var datetime $updated
      *
-     * @gedmo:Timestampable(on="update")
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updated;
