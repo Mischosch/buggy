@@ -1,5 +1,7 @@
 <?php
 return array(
+    'display_exceptions' => 1,
+    'layout' => 'layouts/buggy.phtml',
     'buggy' => array(
     ),
     'spiffy-doctrine-extensions' => array(
@@ -8,8 +10,53 @@ return array(
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'buggy'                  => 'Buggy\Controller\IndexController',
+                'index'    => 'Buggy\Controller\IndexController',
+                'error'    => 'Buggy\Controller\ErrorController',
+                'view'     => 'Zend\View\PhpRenderer',
+				'markdown' => 'Markdown_Parser',
             ),
+
+            'doctrine' => array(
+                'parameters' => array(
+                    'conn' => array(
+                        'driver'   => 'pdo_mysql',
+                        'host'     => 'localhost',
+                        'port'     => '3306', 
+                        'user'     => 'root',
+                        'password' => 'local',
+                        'dbname'   => 'buggy2',
+                    ),
+                )
+            ),
+
+            'Zend\View\HelperLoader' => array(
+                'parameters' => array(
+                    'map' => array(
+                        'url'               => 'Buggy\View\Helper\Url',
+                        'markdown'          => 'EdpMarkdown\View\Helper\Markdown',
+                        'messagesFormatter' => 'Buggy\View\Helper\MessagesFormatter',
+                    ),
+                ),
+            ),
+
+            'Zend\View\HelperBroker' => array( 
+                'parameters' => array( 
+                    'loader' => 'Zend\View\HelperLoader', 
+                ), 
+            ),
+
+            'Zend\View\PhpRenderer' => array(
+                'parameters' => array(
+            		'broker' => 'Zend\View\HelperBroker',
+                    'resolver' => 'Zend\View\TemplatePathStack',
+                    'options'  => array(
+                        'script_paths' => array(
+                            'application' => __DIR__ . '/../views',
+                        ),
+                    ),
+                ),
+            ),
+
       		'doctrine_connection' => array(
                 'parameters' => array(
                     'params' => array(
@@ -24,8 +71,6 @@ return array(
                     'evm'    => 'doctrine_evm'
                 )
             ),
-
-            
             'doctrine_driver_chain' => array(
                 'parameters' => array(
                     'drivers' => array(
@@ -41,6 +86,8 @@ return array(
                         ),
                     ),
                 )
+            ),
+            'doctrine_config' => array(
             ),
             'doctrine_evm' => array(
                 'parameters' => array(
@@ -78,6 +125,32 @@ return array(
                             'buggy' => __DIR__ . '/../views',
                         ),
                     ),
+                ),
+            ),
+        ),
+    ),
+    'routes' => array(
+        'default' => array(
+            'type'    => 'Zend\Mvc\Router\Http\Segment',
+            'options' => array(
+                'route'    => '/[:controller[/:action]]',
+                'constraints' => array(
+                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                ),
+                'defaults' => array(
+                    'controller' => 'index',
+                    'action'     => 'index',
+                ),
+            ),
+        ),
+        'home' => array(
+            'type' => 'Zend\Mvc\Router\Http\Literal',
+            'options' => array(
+                'route'    => '/',
+                'defaults' => array(
+                    'controller' => 'index',
+                    'action'     => 'index',
                 ),
             ),
         ),
