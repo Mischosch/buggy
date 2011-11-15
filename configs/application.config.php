@@ -4,7 +4,6 @@ return array(
         realpath(__DIR__ . '/../modules'),
     ),
     'modules' => array(
-        'Application',
     	'SpiffyDoctrine',
     	'SpiffyDoctrineExtensions',
  		'Buggy',
