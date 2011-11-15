@@ -16,3 +16,6 @@
 [submodule "modules/SpiffyDoctrineExtensions"]
 	path = modules/SpiffyDoctrineExtensions
 	url = https://github.com/SpiffyJr/SpiffyDoctrineExtensions.git
+[submodule "modules/ZfComposer"]
+	path = modules/ZfComposer
+	url = git@github.com:lenada/ZfComposer.git

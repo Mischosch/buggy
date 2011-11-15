@@ -4,3 +4,5 @@
 /.zfproject.xml
 .DS_Store
 /docs/cache/*
+/composer.lock
+/vendor
