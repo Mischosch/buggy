@@ -39,6 +39,11 @@ return array(
                             'namespace'       => 'Buggy\Model',
                             'paths'           => array(__DIR__ . '/../src/Buggy/Model'),
                         ),
+/*                        'buggy_document_annotationdriver' => array(
+                            'class'           => 'Doctrine\ODM\CouchDb\Mapping\Driver\AnnotationDriver',
+                            'namespace'       => 'Buggy\Document',
+                            'paths'           => array(__DIR__ . '/../src/Buggy/Document'),
+                        ),*/
                     ),
                 )
             ),
