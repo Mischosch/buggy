@@ -1,15 +1,15 @@
 <?php 
 	use Zend\Registry;
 ?>
-<?= $this->plugin('doctype'); ?>
+<?php echo $this->doctype(); ?>
 
 <html>
 <head>
 <?php 
-    echo $this->plugin('headTitle')->toString(); 
-    echo $this->plugin('headMeta')->toString(); 
-    echo $this->plugin('headLink')->toString(); 
-    echo $this->plugin('headScript')->toString(); 
+    echo $this->headTitle(); 
+    echo $this->headMeta(); 
+    echo $this->headLink(); 
+    echo $this->headScript(); 
 ?> 
 <link href="/favicon.ico" type="image/x-icon" rel="icon" />
 <link href="/favicon.ico" type="image/x-icon" rel="shortcut icon" />
@@ -25,10 +25,10 @@
 			<div class="container">
 				<h3><a href="/admin/overview">Buggy Administration</a></h3>
 				<ul>
-					<li<?php if ($this->vars('activeNavPoint') == 'projects') echo ' class="active"'; ?>>
+					<li<?php if ($this->activeNavPoint == 'projects') echo ' class="active"'; ?>>
 						<a href="/admin/projects">Projects</a>
 					</li>
-					<li<?php if ($this->vars('activeNavPoint') == 'users') echo ' class="active"'; ?>>
+					<li<?php if ($this->activeNavPoint == 'users') echo ' class="active"'; ?>>
 						<a href="/admin/users">Users</a>
 					</li>
 				</ul>
@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	
-	<?php echo $this->vars()->getRawValue('content'); ?>
+	<?php echo $this->raw('content'); ?>
 
 	<footer>
     	<p class="row">

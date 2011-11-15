@@ -1,6 +1,8 @@
 <?php
 
-namespace Application\View;
+namespace Buggy\View;
+
+use Zend\Debug;
 
 use ArrayAccess,
     Zend\Di\Locator,
@@ -19,6 +21,7 @@ class Listener implements ListenerAggregate
     protected $staticListeners = array();
     protected $view;
     protected $displayExceptions = false;
+    protected $defaultNamespace = 'Buggy';
 
     public function __construct(Renderer $renderer, $layout = 'layout.phtml')
     {
@@ -61,6 +64,9 @@ class Listener implements ListenerAggregate
 
         $ident   = 'Zend\Mvc\Controller\ActionController';
         $handler = $events->attach($ident, 'dispatch', array($this, 'renderView'), -50);
+        $this->staticListeners[] = array($ident, $handler);
+        
+        $handler = $events->attach($ident, 'dispatch', array($this, 'baseInit'), -60);
         $this->staticListeners[] = array($ident, $handler);
     }
 
@@ -114,6 +120,7 @@ class Listener implements ListenerAggregate
         }
 
         $routeMatch = $e->getRouteMatch();
+        $namespace  = $routeMatch->getParam('namespace', strtolower($this->defaultNamespace));
         $controller = $routeMatch->getParam('controller', 'index');
         $action     = $routeMatch->getParam('action', 'index');
         $script     = $controller . '/' . $action . '.phtml';
@@ -125,6 +132,28 @@ class Listener implements ListenerAggregate
             $vars = (array) $vars;
         }
 
+        // Action content
+        // Debug::dump($this->view->resolver()->getPaths());
+        // exit();
+        $paths = $this->view->resolver()->getPaths();
+        $pathToSet = false;
+        $newPaths = array();
+        foreach ($paths as $path) {
+            if (strpos($path, ucfirst($namespace))) {
+                $pathToSet = $path;
+            } else {
+                array_push($newPaths, $path);
+            }
+        }
+        if (isset($pathToSet)) {
+            $this->view->resolver()->setPaths(array($pathToSet));
+        }
+        
+        
+        //Debug::dump($this->view->resolver()->getPaths());
+        //var_dump($this->view->resolver()->getScriptPath('index/index.phtml'));
+        //exit;
+        
         $content    = $this->view->render($script, $vars);
 
         $e->setResult($content);
@@ -150,6 +179,11 @@ class Listener implements ListenerAggregate
         } else {
             $vars['content'] = $e->getResult();
         }
+        
+        
+        $namespace  = $e->getRouteMatch()
+            ->getParam('namespace', strtolower($this->defaultNamespace));
+        $this->layout = 'layouts/' . $namespace . '.phtml';
 
         $layout   = $this->view->render($this->layout, $vars);
         $response->setContent($layout);
@@ -212,7 +246,20 @@ class Listener implements ListenerAggregate
         $content = $this->view->render('error/index.phtml', $vars);
 
         $e->setResult($content);
+        
+        $this->baseInit($e);
 
         return $this->renderLayout($e);
+    }
+    
+    public function baseInit(MvcEvent $e)
+    {
+        $controller = $e->getTarget();
+        if (method_exists($controller, 'init')) {
+            $controller->init();
+        } else if($controller instanceof \Zend\Mvc\Application) {
+            $locator = $controller->getLocator();
+            $locator->get('error')->init();
+        }
     }
 }

@@ -1,29 +1,25 @@
 <?php
 
-/** @namespace */
 namespace BuggyAdmin\Controller;
 
-use BuggyAdmin\Model\Project,
+use Buggy\Model\Project,
 	Zend\Registry,
 	Zend\Debug, 
 	Zend\Mvc\Controller\ActionController,
-	SpiffyDoctrine\Factory\EntityManager as EntityManager;
+	SpiffyDoctrine\Service\Doctrine as EntityManager;
 
-class IndexController extends ActionController
+class IndexController extends BaseController
 {
 
 	/**
-	 * @var Doctrine\ORM\EntityManager
+	 * @var EntityManager
 	 */
 	protected $em;
-	
-    /*public function init()
-    {
-    	$this->broker('baseinit');
-    }*/
 
     public function indexAction()
     {
+        Debug::dump($this->getEvent()->getParam('route-match'));
+        exit();
     	return array('content' => 'Admin Overview');
     }
     
@@ -67,7 +63,7 @@ class IndexController extends ActionController
     
 	public function setDoctrineEntityManager(EntityManager $em)
     {
-        $this->em = $em();
+        $this->em = $em->getEntityManager();
         return $this;
     }
 

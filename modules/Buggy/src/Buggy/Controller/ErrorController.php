@@ -1,10 +1,8 @@
 <?php
 
-namespace Application\Controller;
+namespace Buggy\Controller;
 
-use Zend\Mvc\Controller\ActionController;
-
-class ErrorController extends ActionController
+class ErrorController extends BaseController
 {
     const ERROR_NO_ROUTE = 404;
     const ERROR_NO_CONTROLLER = 404;

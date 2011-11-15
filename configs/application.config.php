@@ -4,8 +4,6 @@ return array(
         realpath(__DIR__ . '/../modules'),
     ),
     'modules' => array(
-    	'Application',
-    	'ZfComposer',
     	'SpiffyDoctrine',
     	'SpiffyDoctrineExtensions',
  		'Buggy',
