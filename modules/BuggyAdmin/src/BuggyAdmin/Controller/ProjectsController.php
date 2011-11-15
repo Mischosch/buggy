@@ -5,32 +5,27 @@ namespace BuggyAdmin\Controller;
 use Buggy\Model\Project,
 	Zend\Debug, 
 	Zend\Mvc\Controller\ActionController,
-	SpiffyDoctrine\Factory\EntityManager as EntityManager;
+	SpiffyDoctrine\Service\Doctrine as EntityManager;
 	
 class ProjectsController extends ActionController
 {
 
 	/**
-	 * @var Doctrine\ORM\EntityManager
+	 * @var EntityManager
 	 */
 	protected $em;
 	
 	protected $userService;
     protected $authService;
 	
-	/*public function init()
-    {
-    	$this->broker('baseinit');
-    }*/
-	
     public function indexAction()
     {
-		if (!$this->getAuthService()->hasIdentity()) {
+		/*if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('default', array(
                 'controller' => 'user',
                 'action'     => 'login',
             )); 
-        }
+        }*/
 
     	$projects = $this->em->getRepository('Buggy\Model\Project')
     		->getProjectList();
@@ -77,9 +72,9 @@ class ProjectsController extends ActionController
     	exit;
     }
     
-	public function setDoctrineEntityManager($em)
+	public function setDoctrineEntityManager(EntityManager $em)
     {
-        $this->em = $em;
+        $this->em = $em->getEntityManager();
         return $this;
     }
 
