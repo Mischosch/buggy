@@ -3,19 +3,19 @@
 	url = git://git.zendframework.com/zf.git
 [submodule "modules/SpiffyDoctrine"]
 	path = modules/SpiffyDoctrine
-	url = https://github.com/SpiffyJr/SpiffyDoctrine.git
+	url = git@github.com:lenada/SpiffyDoctrine.git
 [submodule "modules/EdpCommon"]
 	path = modules/EdpCommon
-	url = git://github.com/EvanDotPro/EdpCommon.git
+	url = git@github.com:lenada/EdpCommon.git
 [submodule "modules/EdpMarkdown"]
 	path = modules/EdpMarkdown
-	url = https://github.com/EvanDotPro/EdpMarkdown.git
+	url = git@github.com:lenada/EdpMarkdown.git
 [submodule "modules/EdpUser"]
 	path = modules/EdpUser
-	url = git://github.com/EvanDotPro/EdpUser.git
+	url = git@github.com:lenada/EdpUser.git
 [submodule "modules/SpiffyDoctrineExtensions"]
 	path = modules/SpiffyDoctrineExtensions
-	url = https://github.com/SpiffyJr/SpiffyDoctrineExtensions.git
+	url = git@github.com:lenada/SpiffyDoctrineExtensions.git
 [submodule "modules/ZfComposer"]
 	path = modules/ZfComposer
 	url = git@github.com:lenada/ZfComposer.git
