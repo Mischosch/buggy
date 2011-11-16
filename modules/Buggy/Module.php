@@ -62,7 +62,7 @@ class Module
     {
         $app          = $e->getParam('application');
         $locator      = $app->getLocator();
-        $config       = $e->getParam('modules')->getMergedConfig();
+        $config       = $e->getParam('config');
         $view         = $this->getView($app);
         $viewListener = $this->getViewListener($view, $config);
         $app->events()->attachAggregate($viewListener);
