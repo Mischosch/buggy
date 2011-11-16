@@ -16,19 +16,6 @@ return array(
 				'markdown' => 'Markdown_Parser',
             ),
 
-            'doctrine' => array(
-                'parameters' => array(
-                    'conn' => array(
-                        'driver'   => 'pdo_mysql',
-                        'host'     => 'localhost',
-                        'port'     => '3306', 
-                        'user'     => 'root',
-                        'password' => 'local',
-                        'dbname'   => 'buggy2',
-                    ),
-                )
-            ),
-
             'Zend\View\HelperLoader' => array(
                 'parameters' => array(
                     'map' => array(
@@ -64,8 +51,8 @@ return array(
                         'host'     => 'localhost',
                         'port'     => '3306', 
                         'user'     => 'root',
-                        'password' => 'local',
-                        'dbname'   => 'buggy2',
+                        'password' => '',
+                        'dbname'   => 'buggy',
                     ),
                     'config' => 'doctrine_config',
                     'evm'    => 'doctrine_evm'
@@ -92,37 +79,7 @@ return array(
                     ),
                 )
             ),
-            'doctrine_config' => array(
-            ),
-            'doctrine_evm' => array(
-                'parameters' => array(
-                    'opts' => array(
-                        'subscribers' => array(
-                        	 'Gedmo\Timestampable\TimestampableListener'
-    					)
-                    )
-                )
-            ),
-            'doctrine-eventmanager' => array(
-                'injections' => array(
-                    'Gedmo\Timestampable\TimestampableListener',
-    				'Gedmo\Sluggable\SluggableListener', 
-    				'Gedmo\Tree\TreeListener'
-                ),
-            ),
-            /*'doctrine-eventmanager' => array(
-                'injections' => array(
-                        'Gedmo\Timestampable\Timestampable',
-    					'Gedmo\Sluggable\SluggableListener', 
-    					'Gedmo\Tree\TreeListener', 
-    					'DoctrineExtensions\Versionable\VersionListener'
-                ),
-            ),
-            'Buggy\Mapper\ProjectDoctrine' => array(
-                'parameters' => array(
-                    'em' => 'doctrine_em'
-                ),
-            ),*/
+
             'Zend\View\PhpRenderer' => array(
                 'parameters' => array(
                     'options'  => array(

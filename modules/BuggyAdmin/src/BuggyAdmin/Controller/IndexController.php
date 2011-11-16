@@ -6,7 +6,7 @@ use Buggy\Model\Project,
 	Zend\Registry,
 	Zend\Debug, 
 	Zend\Mvc\Controller\ActionController,
-	SpiffyDoctrine\Service\Doctrine as EntityManager;
+	Doctrine\ORM\EntityManager as EntityManager;
 
 class IndexController extends BaseController
 {
@@ -25,7 +25,7 @@ class IndexController extends BaseController
     
 	public function allAction()
     {
-    	$projects = $this->em->getRepository('Application\Model\Project')
+    	$projects = $this->em->getRepository('Buggy\Model\Project')
     		->findAll();
     	Debug::dump($projects);
     	exit;
@@ -63,7 +63,7 @@ class IndexController extends BaseController
     
 	public function setDoctrineEntityManager(EntityManager $em)
     {
-        $this->em = $em->getEntityManager();
+        $this->em = $em;
         return $this;
     }
 

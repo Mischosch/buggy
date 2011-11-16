@@ -9,13 +9,13 @@ $config = array(
         
         'BuggyAdmin\Controller\IndexController' => array(
         	'parameters' => array(
-        		'em' => 'doctrine'
+        		'em' => 'doctrine_em'
         	)
         ), 
         
         'BuggyAdmin\Controller\ProjectsController' => array(
         	'parameters' => array(
-        		'em' => 'doctrine'
+        		'em' => 'doctrine_em'
         	)
         ), 
 
@@ -37,7 +37,7 @@ $config = array(
                 'route'    => '/admin',
                 'defaults' => array(
                     'namespace'  => 'BuggyAdmin',
-                    'controller' => 'index',
+                    'controller' => 'admin',
                     'action'     => 'index',
                 ),
             ),

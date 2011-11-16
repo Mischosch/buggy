@@ -20,9 +20,11 @@
         "php": ">=5.3.0",
        	"doctrine/orm": "master-dev",
         "doctrine/dbal": "master-dev",
-	"doctrine/common": "master-dev",
-	"doctrine/couchdb-odm": "master-dev",
-	"gedmo/doctrine-extensions": "master-dev"
+	    "doctrine/common": "master-dev",
+	    "doctrine/couchdb-odm": "master-dev",
+	    "symfony/console": "2.1.0.0-dev",
+	    "symfony/yaml": "2.1.0.0-dev",
+	    "gedmo/doctrine-extensions": "master-dev"
     },
     "recommends": {
         "ext-zip": "*"
