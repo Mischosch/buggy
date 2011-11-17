@@ -7,6 +7,7 @@ return array(
     'spiffy-doctrine-extensions' => array(
         'timestampable' => true,
     ),
+    'spiffy-doctrine-extensions-path' => __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib',
     'di' => array(
         'instance' => array(
             'alias' => array(
