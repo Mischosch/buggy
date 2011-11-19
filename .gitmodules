@@ -19,3 +19,6 @@
 [submodule "modules/ZfComposer"]
 	path = modules/ZfComposer
 	url = git@github.com:lenada/ZfComposer.git
+[submodule "modules/ZfCouchDb"]
+	path = modules/ZfCouchDb
+	url = git@github.com:lenada/ZfCouchDb.git
