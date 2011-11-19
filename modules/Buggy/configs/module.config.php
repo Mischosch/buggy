@@ -7,6 +7,7 @@ return array(
     'spiffy-doctrine-extensions' => array(
         'timestampable' => true,
     ),
+    'spiffy-doctrine-annotations' => __DIR__ . '/../../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
     'spiffy-doctrine-extensions-path' => __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib',
     'di' => array(
         'instance' => array(
@@ -44,7 +45,11 @@ return array(
                     ),
                 ),
             ),
-
+            'Buggy\Controller\IndexController' => array(
+        		'parameters' => array(
+        			'dm' => 'doctrine_dm'
+        		)
+        	), 
       		'doctrine_connection' => array(
                 'parameters' => array(
                     'params' => array(
@@ -52,7 +57,7 @@ return array(
                         'host'     => 'localhost',
                         'port'     => '3306', 
                         'user'     => 'root',
-                        'password' => '',
+                        'password' => 'local',
                         'dbname'   => 'buggy',
                     ),
                     'config' => 'doctrine_config',

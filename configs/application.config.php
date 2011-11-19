@@ -5,9 +5,10 @@ return array(
     ),
     'modules' => array(
     	'ZfComposer',
+        'Buggy',
     	'SpiffyDoctrine',
     	'SpiffyDoctrineExtensions',
- 		'Buggy',
+        'ZfCouchDb',
     	'BuggyAdmin',
 		'EdpCommon',
     	'EdpUser',
