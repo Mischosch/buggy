@@ -62,6 +62,7 @@ class Module
     {
         $app          = $e->getParam('application');
         $locator      = $app->getLocator();
+        // \Zend\Di\Display\Console::export($locator);
         $config       = $e->getParam('config');
         $view         = $this->getView($app);
         $viewListener = $this->getViewListener($view, $config);

@@ -8,6 +8,7 @@ return array(
         'timestampable' => true,
     ),
     'spiffy-doctrine-annotations' => __DIR__ . '/../../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
+    'zfcouchdb-annotations' => __DIR__ . '/../../../vendor/doctrine/couchdb-odm/lib/Doctrine/ODM/CouchDB/Mapping/Annotations/',
     'spiffy-doctrine-extensions-path' => __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib',
     'di' => array(
         'instance' => array(
