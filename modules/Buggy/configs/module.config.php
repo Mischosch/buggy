@@ -1,5 +1,5 @@
 <?php
-return array(
+$config = array(
     'display_exceptions' => 1,
     'layout' => 'layouts/buggy.phtml',
     'buggy' => array(
@@ -9,7 +9,7 @@ return array(
     ),
     'spiffy-doctrine-annotations' => __DIR__ . '/../../../vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php',
     'zfcouchdb-annotations' => __DIR__ . '/../../../vendor/doctrine/couchdb-odm/lib/Doctrine/ODM/CouchDB/Mapping/Annotations/',
-    'spiffy-doctrine-extensions-path' => __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib',
+    'spiffy-doctrine-extensions-path' => __DIR__ . '/../../../vendor/gedmo/doctrine-extensions/lib/',
     'di' => array(
         'instance' => array(
             'alias' => array(
@@ -125,3 +125,9 @@ return array(
         ),
     ),
 );
+if (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) {
+	$config = new Zend\Config\Config($config, true);
+	$config->merge(new Zend\Config\Config(include __DIR__ . '/config.' . APPLICATION_ENV . '.php'));
+	return $config->toArray();
+}
+return $config;
