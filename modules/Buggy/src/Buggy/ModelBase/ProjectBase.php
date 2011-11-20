@@ -24,18 +24,18 @@ class ProjectBase extends ModelAbstract
     private $title;
     
     /** 
-     * @ORM\Column(type="text") 
+     * @ORM\Column(type="text", nullable=true) 
      */
     private $description;
     
     /** 
      * @ORM\Column(type="integer") 
      */
-    private $public;
+    private $public = 0;
     
     /**
      * @ORM\Column(type="integer")
-     * @version
+     * @ORM\version
      */
     private $version;
     
