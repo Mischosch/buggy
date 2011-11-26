@@ -19,7 +19,7 @@ dependencies:
     channel: 'pear.symfony-project.com'
     package: 'symfony/yaml'
     version: '1.0.6'
-    target: vendor
+    target: vendor/symtest
     force: local
 
   -
