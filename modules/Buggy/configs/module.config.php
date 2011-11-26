@@ -16,7 +16,7 @@ $config = array(
                 'index'    => 'Buggy\Controller\IndexController',
                 'error'    => 'Buggy\Controller\ErrorController',
                 'view'     => 'Zend\View\PhpRenderer',
-				'markdown' => 'Markdown_Parser',
+                'markdown' => 'Markdown_Parser',
             ),
 
             'Zend\View\HelperLoader' => array(
@@ -29,15 +29,15 @@ $config = array(
                 ),
             ),
 
-            'Zend\View\HelperBroker' => array( 
-                'parameters' => array( 
-                    'loader' => 'Zend\View\HelperLoader', 
-                ), 
+            'Zend\View\HelperBroker' => array(
+                'parameters' => array(
+                    'loader' => 'Zend\View\HelperLoader',
+                ),
             ),
 
             'Zend\View\PhpRenderer' => array(
                 'parameters' => array(
-            		'broker' => 'Zend\View\HelperBroker',
+                    'broker' => 'Zend\View\HelperBroker',
                     'resolver' => 'Zend\View\TemplatePathStack',
                     'options'  => array(
                         'script_paths' => array(
@@ -47,16 +47,16 @@ $config = array(
                 ),
             ),
             'Buggy\Controller\IndexController' => array(
-        		'parameters' => array(
-        			'dm' => 'doctrine_dm'
-        		)
-        	), 
-      		'doctrine_connection' => array(
+                'parameters' => array(
+                    'dm' => 'doctrine_dm'
+                )
+            ),
+            'doctrine_connection' => array(
                 'parameters' => array(
                     'params' => array(
                         'driver'   => 'pdo_mysql',
                         'host'     => 'localhost',
-                        'port'     => '3306', 
+                        'port'     => '3306',
                         'user'     => 'root',
                         'password' => 'local',
                         'dbname'   => 'buggy',
@@ -68,11 +68,11 @@ $config = array(
             'doctrine_driver_chain' => array(
                 'parameters' => array(
                     'drivers' => array(
-						'buggybase_annotationdriver' => array(
-							'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-							'namespace'       => 'Buggy\ModelBase',
-							'paths'           => array(__DIR__ . '/../src/Buggy/ModelBase'),
-						),
+                        'buggybase_annotationdriver' => array(
+                            'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                            'namespace'       => 'Buggy\ModelBase',
+                            'paths'           => array(__DIR__ . '/../src/Buggy/ModelBase'),
+                        ),
                         'buggy_annotationdriver' => array(
                             'class'           => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                             'namespace'       => 'Buggy\Model',
@@ -125,9 +125,9 @@ $config = array(
         ),
     ),
 );
-if (file_exists(__DIR__ . '/config.' . APPLICATION_ENV . '.php')) {
-	$config = new Zend\Config\Config($config, true);
-	$config->merge(new Zend\Config\Config(include __DIR__ . '/config.' . APPLICATION_ENV . '.php'));
-	return $config->toArray();
+if (file_exists(__DIR__ . '/config.' . $env . '.php')) {
+    $config = new Zend\Config\Config($config, true);
+    $config->merge(new Zend\Config\Config(include __DIR__ . '/config.' . APPLICATION_ENV . '.php'));
+    return $config->toArray();
 }
 return $config;
