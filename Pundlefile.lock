@@ -1,0 +1,31 @@
+description: 'buggy pundle - dance the boogie'
+
+dependencies:
+  -
+    name: PHP
+    type: php
+    version: '~5.3'
+
+  -
+    name      : Mischosch
+    type      : repository
+    vcs       : git
+    repository: git@github.com:Mischosch/mischosch.github.com.git
+    target    : vendor/mischosch
+
+  -
+    name: YAML
+    type: 'pear'
+    channel: 'pear.symfony-project.com'
+    package: 'symfony/yaml'
+    version: '1.0.6'
+    target: vendor
+    force: local
+
+  -
+    name: Doctrine
+    type: 'pear'
+    channel: 'pear.doctrine-project.org'
+    package: 'doctrine/CouchDB'
+    target: vendor/zdoctest
+    force: local
