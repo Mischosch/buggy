@@ -13,23 +13,22 @@ use Zend\Mvc\Router\RouteStack,
 
 class IndexController extends BaseController
 {
-	protected $em;
-	protected $dm;
+    protected $em;
+    protected $dm;
+
     public function indexAction()
     {
-    	
-    	$projects =  $this->dm->getRepository('Buggy\Document\Article')->findAll();
-  
+        $projects =  $this->dm->getRepository('Buggy\Document\Article')->findAll();
         return array('content' => $projects);
     }
 
-	public function setDocumentManager(DocumentManager $dm)
+    public function setDocumentManager(DocumentManager $dm)
     {
         $this->dm = $dm;
         return $this;
     }
 
-	public function setDoctrineEntityManager(EntityManager $em)
+    public function setDoctrineEntityManager(EntityManager $em)
     {
         $this->em = $em->getEntityManager();
         return $this;
