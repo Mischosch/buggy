@@ -2,16 +2,16 @@
 
 namespace Buggy;
 
-use Buggy\View\Listener;
-
 use Zend\Debug;
 
 use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
     Zend\EventManager\Event,
-    Zend\Loader\AutoloaderFactory;
+    Zend\Loader\AutoloaderFactory,
+    Zend\Module\Consumer\AutoloaderProvider,
+    Buggy\View\Listener;
 
-class Module
+class Module implements AutoloaderProvider
 {
     protected $view;
     protected $viewListener;
@@ -19,13 +19,12 @@ class Module
 
     public function init(Manager $moduleManager)
     {
-        $this->initAutoloader();
         $events = StaticEventManager::getInstance();
         $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
         $moduleManager->events()->attach('init.post', array($this, 'postInit'));
     }
 
-    protected function initAutoloader()
+    public function getAutoloaderConfig()
     {
         AutoloaderFactory::factory(array(
             'Zend\Loader\ClassMapAutoloader' => array(
@@ -43,13 +42,13 @@ class Module
     {
         return include __DIR__ . '/configs/module.config.php';
     }
-    
+
     public function postInit($e)
     {
         $config = $e->getTarget()->getMergedConfig();
         static::$options = $config['buggy'];
     }
-    
+
     public static function getOption($option)
     {
         if (!isset(static::$options[$option])) {
@@ -57,7 +56,7 @@ class Module
         }
         return static::$options[$option];
     }
-    
+
     public function initializeView($e)
     {
         $app          = $e->getParam('application');
@@ -68,7 +67,7 @@ class Module
         $viewListener = $this->getViewListener($view, $config);
         $app->events()->attachAggregate($viewListener);
         $events       = StaticEventManager::getInstance();
-        
+
         $viewListener->registerStaticListeners($events, $locator);
     }
 
@@ -78,7 +77,7 @@ class Module
             return $this->viewListener;
         }
 
-        $viewListener       = new Listener($view, $config->layout);
+        $viewListener = new Listener($view, $config->layout);
         $viewListener->setDisplayExceptionsFlag($config->display_exceptions);
 
         $this->viewListener = $viewListener;
