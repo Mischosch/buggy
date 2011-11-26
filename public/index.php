@@ -6,12 +6,13 @@ defined('APPLICATION_ENV')
     // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(__DIR__ . '/../application'));
- 
+
 // Ensure ZF is on the include path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(__DIR__ . '/../library'),
-    realpath(__DIR__ . '/../library/DoctrineExtensions'),
     realpath(__DIR__ . '/../library/ZendFramework/library'),
+    realpath(__DIR__ . '/../vendor/doctrine/common/lib'),
+    realpath(__DIR__ . '/../vendor/doctrine/dbal/lib'),
+    realpath(__DIR__ . '/../vendor/doctrine/orm/lib'),
     get_include_path(),
 )));
 
@@ -26,6 +27,7 @@ $moduleLoader->register();
 $moduleManager = new Zend\Module\Manager($appConfig['modules']);
 $listenerOptions = new Zend\Module\Listener\ListenerOptions($appConfig['module_listener_options']);
 $moduleManager->setDefaultListenerOptions($listenerOptions);
+$moduleManager->getConfigListener()->addConfigGlobPath(dirname(__DIR__) . '/config/autoload/*.config.php');
 $moduleManager->loadModules();
 
 // Create application, bootstrap, and run
