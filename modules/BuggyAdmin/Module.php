@@ -2,22 +2,21 @@
 
 namespace BuggyAdmin;
 
-use Zend\Config\Config,
-    Zend\Loader\AutoloaderFactory;
+use Zend\Debug;
 
-class Module
+use Zend\Module\Manager,
+    Zend\Config\Config,
+    Zend\Loader\AutoloaderFactory,
+    Zend\Module\Consumer\AutoloaderProvider;
+
+class Module implements AutoloaderProvider
 {
-    public static function getConfig()
+    public function init(Manager $moduleManager)
     {
-        return new Config(include __DIR__ . '/configs/module.config.php');
+        //Debug::dump($moduleManager);exit;
     }
 
-    public function init($eventCollection)
-    {
-        $this->initAutoloader();
-    }
-
-    protected function initAutoloader()
+    public function getAutoloaderConfig()
     {
         AutoloaderFactory::factory(array(
             'Zend\Loader\ClassMapAutoloader' => array(
@@ -29,5 +28,10 @@ class Module
                 ),
             ),
         ));
+    }
+
+    public static function getConfig($env = null)
+    {
+        return new Config(include __DIR__ . '/configs/module.config.php');
     }
 }
